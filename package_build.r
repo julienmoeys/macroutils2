@@ -1,0 +1,107 @@
+
+# +--------------------------------------------------------+
+# | Generate package documentation pages from inline       |
+# | documentation. Build, check and install package        |
+# +--------------------------------------------------------+
+
+rm(list=ls(all=TRUE)) 
+
+# prjName <- "macrounchained"
+pkgName  <- "macroutils2"
+pkgDir   <- Sys.getenv(x = "rPackagesDir" ) 
+buildDir <- file.path( pkgDir, pkgName, "_package_binaries" )
+
+setwd( pkgDir )
+
+# Source some utility functions (prefix: pdu_)
+source( file.path( pkgName, "pkg_dev_utilities.fun.r" ) ) 
+
+pdu_detach( pkgName = pkgName )
+
+
+
+# +--------------------------------------------------------+
+# | Generate package documentation pages from inline       |
+# | documentation.                                         |
+# +--------------------------------------------------------+
+
+# Change the description file:
+pdu_pkgDescription( 
+    pkgName     = pkgName, 
+    pkgDir      = pkgDir, 
+    pkgVersion  = "2.0.0", 
+    pkgDepends  = "utils", # Must be in "Depends" as choose.files not available on Unix
+    pkgImports  = c( "tcltk", "graphics", "grDevices", "stats" ), # "tools", 
+    pkgSuggests = c( "RODBC" ), 
+    RVersion    = NULL 
+)   
+
+
+
+library( "roxygen2" )
+
+roxygen2::roxygenize( 
+    package.dir   = file.path( pkgDir, pkgName ), 
+    # unlink.target = TRUE, 
+    roclets       = c( "namespace", "rd" ) # "collate" 
+)   
+
+
+# pdu_pkgRemove( pkgName = pkgName ) 
+
+
+
+# +--------------------------------------------------------+
+# | Run R CMD build (build tar.gz source binary)           |
+# | Run R CMD check (check package)                        |
+# | Run R CMD INSTALL (build Windows binary and install)   |
+# +--------------------------------------------------------+
+
+# # Source some utility functions (prefix: pdu_)
+# source( file.path( pkgName, "pkg_dev_utilities.fun.r" ) ) 
+
+pdu_rcmdbuild( pkgName = pkgName, pkgDir = pkgDir, 
+    buildDir = buildDir, gitRevison = TRUE, 
+    noVignettes = FALSE, compactVignettes = "gs+qpdf", 
+    md5 = TRUE )
+
+pdu_rcmdcheck( pkgName = pkgName, pkgDir = pkgDir, 
+    buildDir = buildDir, noExamples = FALSE, 
+    noTests = FALSE, noVignettes = FALSE )
+
+pdu_rcmdinstall( pkgName = pkgName, pkgDir = pkgDir, 
+    buildDir = buildDir, build = TRUE, 
+    compactDocs = TRUE, byteCompile = TRUE )
+
+#   Remove .Rcheck folder
+pdu_rm_Rcheck( pkgName = pkgName, pkgDir = pkgDir, 
+    buildDir = buildDir )
+
+#   Load and unload the package:
+library( pkgName, character.only = TRUE )
+pdu_detach( pkgName = pkgName )
+
+
+
+# +--------------------------------------------------------+
+# | Rebuild vignette (optional)                            |
+# +--------------------------------------------------------+
+
+# # Source some utility functions (prefix: pdu_)
+# source( file.path( pkgName, "pkg_dev_utilities.fun.r" ) ) 
+
+pdu_build_vignette( RnwFile = "macroutils2_vignette.Rnw", 
+    pkgName = pkgName, pkgDir = pkgDir, buildDir = buildDir, 
+    pdf = TRUE, quiet = TRUE )   
+
+
+
+# +--------------------------------------------------------+
+# | Build PDF-version of the manual (help pages)           |
+# +--------------------------------------------------------+
+
+# # Source some utility functions (prefix: pdu_)
+# source( file.path( pkgName, "pkg_dev_utilities.fun.r" ) ) 
+
+pdu_rd2pdf( pkgName = pkgName, pkgDir = pkgDir, 
+    buildDir = buildDir )
