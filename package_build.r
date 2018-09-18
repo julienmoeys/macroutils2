@@ -6,9 +6,9 @@
 
 rm(list=ls(all=TRUE)) 
 
-# prjName <- "macrounchained"
+prjName  <- "macrounchained"
 pkgName  <- "macroutils2"
-pkgDir   <- Sys.getenv(x = "rPackagesDir" ) 
+pkgDir   <- file.path( Sys.getenv(x = "rPackagesDir" ), prjName )
 buildDir <- file.path( pkgDir, pkgName, "_package_binaries" )
 
 setwd( pkgDir )
