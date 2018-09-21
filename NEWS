@@ -1,6 +1,13 @@
 
     R package: macroutils2
 
+CHANGES IN VERSION 2.0.1
+    
+    2018/09/21  Added a new possible value for argument 
+        'method' in macroInFocusGWConc(). If set to "test" 
+        the function will even work on short simulations 
+        used for functional tests.
+    
 CHANGES IN VERSION 2.0.0
 
     2018/08/27  Clone of the macroutils package created, 

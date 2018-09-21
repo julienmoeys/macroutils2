@@ -4394,7 +4394,11 @@ macroBugFixCleanDb <- function(
 #'  \code{method = "R"}, the concentration is calculated using 
 #'  \code{R} function \code{\link[stats]{quantile}}, calcuted 
 #'  directly on the yearly (or biennial or triennial) 
-#'  concentrations.
+#'  concentrations. If \code{method = "test"}, it is expected 
+#'  that the simulation is a "short test" simulation, for example 
+#'  one year long, and a simple average concentration may be 
+#'  returned when a PEC-groundwater cannot be calculated. 
+#'  Only meant to be used when performing functional tests.
 #'
 #'@param negToZero
 #'  Single logical value. If \code{TRUE} (not the default) 
@@ -4540,7 +4544,7 @@ macroInFocusGWConc <- function(
     nbYrsWarmUp = 6L, 
     yearsAvg = NULL, 
     prob = 0.8, 
-    method = c("focus","R")[1L], 
+    method = c("focus","R","test")[1L], 
     negToZero = TRUE, 
     type = 7L, 
     quiet = FALSE, 
@@ -4562,7 +4566,7 @@ macroInFocusGWConc.character <- function(
     nbYrsWarmUp = 6L, 
     yearsAvg = NULL,  
     prob = 0.8, 
-    method = c("focus","R")[1L], 
+    method = c("focus","R","test")[1L], 
     negToZero = TRUE, 
     type = 7L, 
     quiet = FALSE, 
@@ -4608,7 +4612,7 @@ macroInFocusGWConc.list <- function(
     nbYrsWarmUp = 6L, 
     yearsAvg = NULL,  
     prob = 0.8, 
-    method = c("focus","R")[1L], 
+    method = c("focus","R","test")[1L], 
     negToZero = TRUE, 
     type = 7L, 
     quiet = FALSE, 
@@ -4679,7 +4683,7 @@ macroInFocusGWConc.data.frame <- function(
     nbYrsWarmUp = 6L, 
     yearsAvg = NULL,  # 1 = 1 year averaging, 2 = 2 year averaging, etc. 
     prob = 0.8, 
-    method = c("focus","R")[1L], 
+    method = c("focus","R","test")[1L], 
     negToZero = TRUE, 
     type = 7L, 
     quiet = FALSE, 
@@ -4794,6 +4798,9 @@ macroInFocusGWConc.data.frame <- function(
         }else if( nbYears == 60L ){
             #   Triennial application
             yearsAvg <- 3L
+            
+        }else if( method == "test" ){
+            yearsAvg <- 1L
             
         }else{
             yearsAvg <- nbYears %/% 20L
@@ -4926,12 +4933,18 @@ macroInFocusGWConc.data.frame <- function(
         stop( sprintf( "'prob' (%s) should be a number >= 0 and <= 1", prob ) )
     }   
     
+    #   prob <- 0.8; nbAvgPer <- 1L
+    
     yearsXth <- prob * nbAvgPer
     yearsXth <- c( floor(yearsXth), ceiling(yearsXth) )
     if( yearsXth[ 1L ] == yearsXth[ 2L ] ){ 
         if( (prob != 0) & (prob != 1) ){
             yearsXth[ 2L ] <- yearsXth[ 1L ] + 1L 
         }   
+    }   
+    
+    if( (method == "test") & all( yearsXth == 0:1 ) ){
+        yearsXth <- c( 1L, 1L ) )
     }   
     
     #   Handle possible negative values in the concentrations
@@ -4986,7 +4999,7 @@ macroInFocusGWConc.data.frame <- function(
         # CONC_PERC_XTH1  <- mean( xPeriod[ order( xPeriod[, "CONC_PERC" ] ), ][ yearsXth, "CONC_PERC" ] )
         # concTLayerXth <- mean( xPeriod[ order( xPeriod[, "CONC_TLAYER" ] ), ][ yearsXth, "CONC_TLAYER" ] ) 
         
-    }else if( method == "R" ){
+    }else if( method %in% c( "R", "test" ) ){
         assign(
             x     = CONC_PERC_XTH_name, 
             value = as.numeric( quantile( xPeriod[, "CONC_PERC" ],  probs = prob ) ) )
@@ -4999,7 +5012,9 @@ macroInFocusGWConc.data.frame <- function(
         # CONC_TLAYER_XTH2 <- as.numeric( quantile( xPeriod[, "CONC_TLAYER" ], probs = prob ) )
         
     }else{
-        
+        stop( sprintf( 
+            "Argument 'method' should be 'focus', 'R' or 'test'. Now '%s'.",
+            method ) )
     }   
     
     F_SOL_LAYER_MAC_XTH_name <- sprintf( "fSolYLayerMac%sth", 
