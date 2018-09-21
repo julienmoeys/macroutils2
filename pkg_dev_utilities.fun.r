@@ -91,12 +91,18 @@ pdu_pkgDescription <- function(# Modify a package's DESCRIPTION file
         # Get R version:
         RVersion <- R.Version() 
         
+        vMinor <- RVersion[["minor"]]
+        vMinor <- strsplit( x = vMinor, split = ".", 
+            fixed = TRUE )[[ 1L ]][ 1L ] 
+            #   Take the "y" from the "y.z" part of the 
+            #   minor part of the version number
+        
         RVersion <- paste( 
             sep = "", 
             "R (>= ", 
             RVersion[["major"]], 
             ".", 
-            RVersion[["minor"]], 
+            sprintf( "%s.0", vMinor ), # RVersion[["minor"]], 
             ")" 
         )   
     }   
@@ -171,10 +177,13 @@ pdu_pkgDescription <- function(# Modify a package's DESCRIPTION file
 }   #
 
 
+
 pdu_message <- function( fmt, ... ){
     message( sprintf( fmt, ... ) )
     flush.console() 
 }   
+
+
 
 pdu_detach <- function(pkgName){ 
     if( pkgName %in% .packages() )
@@ -185,6 +194,8 @@ pdu_detach <- function(pkgName){
             "name" = sprintf( "package:%s", pkgName ), 
             "character.only" = TRUE ) ) 
 }   
+
+
 
 pdu_rcmdbuild <- function(
     pkgName, 
@@ -219,7 +230,7 @@ pdu_rcmdbuild <- function(
     .noVignettes <- ifelse( noVignettes, "--no-vignettes", "" )
     .compactVignettes <- ifelse( 
         (!noVignettes) & (!is.null(compactVignettes)),  
-        sprintf( '--compactVignettes="%s"', compactVignettes ), 
+        sprintf( '--compact-vignettes="%s"', compactVignettes ), 
         "" )
     .md5 <- ifelse( md5, "--md5", "" )
     
@@ -241,7 +252,8 @@ pdu_rcmdcheck <- function(
     buildDir = NULL, 
     noExamples = FALSE, 
     noTests = FALSE, 
-    noVignettes = FALSE  
+    noVignettes = FALSE, 
+    asCRAN = FALSE 
 ){  
     oldwd <- getwd() 
     on.exit( setwd( oldwd ) )
@@ -266,9 +278,10 @@ pdu_rcmdcheck <- function(
     .noExamples <- ifelse( noExamples, "--no-examples ", " " )
     .noTests <- ifelse( noTests, "--no-tests ", " " )
     .noVignettes <- ifelse( noVignettes, "--no-vignettes ", " " )
+    .asCRAN <- ifelse( asCRAN, "--as-cran ", " " )
     
-    cmd <- sprintf( "R CMD check %s%s%s%s", .noExamples, 
-        .noTests, .noVignettes, normalizePath(f) )
+    cmd <- sprintf( "R CMD check %s%s%s%s%s", .noExamples, 
+        .noTests, .noVignettes, .asCRAN, normalizePath(f) )
     
     pdu_message( sprintf( "COMMAND: %s\n\n", cmd ) )
     
@@ -285,7 +298,8 @@ pdu_rcmdinstall <- function(
     buildDir = NULL, 
     build = TRUE, 
     compactDocs = TRUE, 
-    byteCompile = TRUE
+    byteCompile = TRUE, 
+    compileBoth = FALSE 
 ){  
     oldwd <- getwd() 
     on.exit( setwd( oldwd ) )
@@ -310,9 +324,10 @@ pdu_rcmdinstall <- function(
     .build <- ifelse( build, "--build ", " " )
     .compactDocs <- ifelse( compactDocs, "--compact-docs ", " " )
     .byteCompile <- ifelse( build, "--byte-compile ", " " )
+    .compileBoth <- ifelse( compileBoth, "--compile-both ", " " )
     
-    cmd <- sprintf( "R CMD INSTALL %s%s%s%s", .build, 
-        .compactDocs, .byteCompile, normalizePath(f) )
+    cmd <- sprintf( "R CMD INSTALL %s%s%s%s%s", .build, 
+        .compactDocs, .byteCompile, .compileBoth, normalizePath(f) )
     
     pdu_message( sprintf( "COMMAND: %s\n\n", cmd ) )
     
@@ -403,12 +418,22 @@ pdu_build_vignette <- function(
     ## Copy the vignette's pdf into the 'build' folder
     pdfFile <- sub( pattern = ".Rnw", replacement = ".pdf", 
         x = RnwFile, fixed = TRUE )
+
+    # pdu_message( "--- tools::compactPDF()\n" )
+    
+    # tools::compactPDF( paths = pdfFile, gs_quality = "ebook")
     
     file.copy( 
         from      = pdfFile, 
         to        = file.path( buildDir, pdfFile ), 
         overwrite = TRUE )    
     
+    # file.copy( 
+        # from      = pdfFile, 
+        # to        = file.path( pkgDir, pkgName, "inst", "doc", pdfFile ), 
+        # overwrite = TRUE )    
+    
+
     for( ext in c( "\\.tex$", "\\.bib.bak$", "\\.R$", "\\.aux$", 
         "\\.bbl$", "\\.blg$", "\\.log$", "\\.out$", "\\.toc$", "\\.pdf$", "\\.dvi$" ) ){ # 
         
@@ -458,13 +483,14 @@ pdu_rd2pdf <- function(
     out <- shell( cmd )
     
     # ## Copy the manual's pdf into the 'build' folder
-    file.copy( 
-        from      = pdfFile, 
-        to        = file.path( buildDir, pdfFile ), 
-        overwrite = TRUE )    
-    
-    file.remove( pdfFile ) 
-    
+    if( normalizePath( buildDir ) != normalizePath( pkgDir ) ){
+        file.copy( 
+            from      = pdfFile, 
+            to        = file.path( buildDir, pdfFile ), 
+            overwrite = TRUE )    
+        
+        file.remove( pdfFile ) 
+    }   
     shell.exec( file.path( buildDir, pdfFile ) )
     
     return( out )
