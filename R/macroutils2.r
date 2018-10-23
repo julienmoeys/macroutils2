@@ -1747,7 +1747,7 @@ macroReadIndump <- function(
 #'@seealso \code{\link[base]{readBin}}.
 #'
 #'
-#'@example inst/examples/macroReadBin.r
+#'@example inst/examples/macroReadBin-example.r
 #'
 #'@rdname macroReadBin-methods
 #'
@@ -1923,7 +1923,7 @@ macroReadBin.character <- function(
 #'  Additional options passed to \code{\link[base:readBin]{writeBin}}
 #'  
 #'  
-#'@example inst/examples/macroWriteBin.r
+#'@example inst/examples/macroWriteBin-example.r
 #'
 #'@rdname macroWriteBin-methods
 #'
@@ -2399,7 +2399,7 @@ macroWriteBin.data.frame <- function(
 #'  Invisibly returns 'x', or the content of the files selected.
 #'
 #'
-#'@example inst/examples/macroPlotBin.r
+#'@example inst/examples/macroPlotBin-example.r
 #'
 #'@rdname macroPlot-methods
 #'
@@ -3415,7 +3415,7 @@ macroPlot.default <- function(
 #'  possible for exporying back the dates).
 #'  
 #'  
-#'@example inst/examples/macroAggregateBin.r
+#'@example inst/examples/macroAggregateBin-example.r
 #'
 #'
 #'@export
@@ -4534,8 +4534,6 @@ macroBugFixCleanDb <- function(
 #'
 #'@rdname macroInFocusGWConc-methods
 #'
-#'@keywords internal
-#'
 #'@export
 #'
 #'@importFrom stats quantile
@@ -4771,17 +4769,29 @@ macroInFocusGWConc.data.frame <- function(
     years <- format.POSIXct( x = x[, "Date" ], format = "%Y" ) 
     years <- as.integer( years ) 
     
-    if( nbYrsWarmUp >= 0 ){ 
+    if( nbYrsWarmUp > 0 ){ 
         yearsOut <- sort( unique( years ) )[ 1:nbYrsWarmUp ]    
+    }else{
+        yearsOut <- integer(0)
     }   
     
     #   Remove the warm-up years
     xOriginal <- x 
     x     <- x[ !(years %in% yearsOut), ]
-    years <- years[ !(years %in% yearsOut) ]
+    years0 <- years 
+    years  <- years[ !(years %in% yearsOut) ]
     
     #   Check that there are indeed 20 years left
     nbYears <- length( unique( years ) )
+    
+    message( sprintf( "nbYears: %s",nbYears ) )
+    
+    if( nbYears == 0L ){
+        stop( 
+            "No simulation-year left after removing warmup years (total nb years: %s; argument 'nbYrsWarmUp': %s)", 
+            years0, nbYrsWarmUp
+        )
+    }   
     
     #   Determine the appropriate number of years on which 
     #   averages are calculated (yearly, biennial, triennial, 
@@ -4944,7 +4954,7 @@ macroInFocusGWConc.data.frame <- function(
     }   
     
     if( (method == "test") & all( yearsXth == 0:1 ) ){
-        yearsXth <- c( 1L, 1L ) )
+        yearsXth <- c( 1L, 1L ) 
     }   
     
     #   Handle possible negative values in the concentrations
