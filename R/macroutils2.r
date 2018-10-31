@@ -4286,7 +4286,7 @@ macroBugFixCleanDb <- function(
 
 
 # +-------------------------------------------------------------+ 
-# | Original file: macroInFocusGWConc.r                         | 
+# | Original file: macroutilsFocusGWConc.r                         | 
 # +-------------------------------------------------------------+ 
 
 #' INTERNAL/NON-OFFICIAL: Calculate the yearly and Xth percentile groundwater concentration from a MACROInFOCUS output.
@@ -4302,7 +4302,7 @@ macroBugFixCleanDb <- function(
 #'  function. You are also strongly recommended to inspect 
 #'  the code of these functions before you use them. To 
 #'  inspect the content of these functions, simply type 
-#'  \code{body( macroutils2:::macroInFocusGWConc.data.frame )} 
+#'  \code{body( macroutils2:::macroutilsFocusGWConc.data.frame )} 
 #'  after you have loaded the package \code{macroutils2}.
 #'
 #'
@@ -4530,14 +4530,14 @@ macroBugFixCleanDb <- function(
 #'  number of input tables from MACROInFOCUS).
 #'
 #'
-#'@example inst/examples/macroInFocusGWConc-examples.r
+#'@example inst/examples/macroutilsFocusGWConc-examples.r
 #'
-#'@rdname macroInFocusGWConc-methods
+#'@rdname macroutilsFocusGWConc-methods
 #'
 #'@export
 #'
 #'@importFrom stats quantile
-macroInFocusGWConc <- function( 
+macroutilsFocusGWConc <- function( 
     x, 
     nbYrsWarmUp = 6L, 
     yearsAvg = NULL, 
@@ -4548,18 +4548,18 @@ macroInFocusGWConc <- function(
     quiet = FALSE, 
     ...
 ){  
-    UseMethod( "macroInFocusGWConc" )
+    UseMethod( "macroutilsFocusGWConc" )
 }  
 
 
 
-#'@rdname macroInFocusGWConc-methods
+#'@rdname macroutilsFocusGWConc-methods
 #'
-#'@method macroInFocusGWConc character
+#'@method macroutilsFocusGWConc character
 #'
 #'@export 
 #'
-macroInFocusGWConc.character <- function( 
+macroutilsFocusGWConc.character <- function( 
     x, 
     nbYrsWarmUp = 6L, 
     yearsAvg = NULL,  
@@ -4591,7 +4591,7 @@ macroInFocusGWConc.character <- function(
         out[, "file" ] <- x
     }   
     
-    return( macroInFocusGWConc( x = out, nbYrsWarmUp = nbYrsWarmUp, 
+    return( macroutilsFocusGWConc( x = out, nbYrsWarmUp = nbYrsWarmUp, 
         yearsAvg = yearsAvg, prob = prob, method = method, 
         negToZero = negToZero, quiet = quiet, type = type, 
         ... ) ) 
@@ -4599,13 +4599,13 @@ macroInFocusGWConc.character <- function(
 
 
 
-#'@rdname macroInFocusGWConc-methods
+#'@rdname macroutilsFocusGWConc-methods
 #'
-#'@method macroInFocusGWConc list
+#'@method macroutilsFocusGWConc list
 #'
 #'@export 
 #'
-macroInFocusGWConc.list <- function( 
+macroutilsFocusGWConc.list <- function( 
     x, 
     nbYrsWarmUp = 6L, 
     yearsAvg = NULL,  
@@ -4634,7 +4634,7 @@ macroInFocusGWConc.list <- function(
     out <- lapply(
         X   = x, 
         FUN = function( xSubset ){
-            return( macroInFocusGWConc( x = xSubset, 
+            return( macroutilsFocusGWConc( x = xSubset, 
                 nbYrsWarmUp = nbYrsWarmUp, yearsAvg = yearsAvg, 
                 prob = prob, method = method, 
                 negToZero = negToZero, quiet = quiet, 
@@ -4669,14 +4669,14 @@ macroInFocusGWConc.list <- function(
     return( out ) 
 }   
 
-#'@rdname macroInFocusGWConc-methods
+#'@rdname macroutilsFocusGWConc-methods
 #'
-#'@method macroInFocusGWConc data.frame
+#'@method macroutilsFocusGWConc data.frame
 #'
 #'@export 
 #'
 #'@importFrom stats aggregate
-macroInFocusGWConc.data.frame <- function( 
+macroutilsFocusGWConc.data.frame <- function( 
     x, 
     nbYrsWarmUp = 6L, 
     yearsAvg = NULL,  # 1 = 1 year averaging, 2 = 2 year averaging, etc. 

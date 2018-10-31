@@ -2,7 +2,7 @@
 *   Create tests (not in package) for substance GW-C with 
     biennial and triennial application intervals.
     
-*   macroInFocusGWConc() consider if one should add an argument 
+*   macroutilsFocusGWConc() consider if one should add an argument 
     for exporting PEC either at the target depth or in the 
     water percolating at the base of the soil (and not both 
     like now).
