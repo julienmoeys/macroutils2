@@ -6,7 +6,7 @@ library( "macroutils2" )
     "bintest/output_chat_winCer_GW-C_1kgHa_d298.bin", 
     package = "macroutils2", mustWork = TRUE ) )
 
-res <- rmacroliteFocusGWConc( x = filenm ) 
+res <- macroutilsFocusGWConc( x = filenm ) 
 
 res 
 
