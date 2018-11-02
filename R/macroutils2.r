@@ -208,7 +208,7 @@ muParList  <- new.env()
 #' Get or set default parameters for the package.
 #'
 #' Get or set default parameters for the package. Notice changes done to the
-#'  parameter values are reset everytime the R session is closed and the package
+#'  parameter values are reset every time the R session is closed and the package
 #'  is reloaded.
 #'
 #'  The function has 3 possible, non-exclusive behaviours: \itemize{ \item If
@@ -238,7 +238,7 @@ muParList  <- new.env()
 #'  \item If \code{par} is a list following the format \code{tag = value}, where
 #'  \code{tag} is the name of the parameter to be changed, and \code{value} is
 #'  its new value.  Such a list is returned by \code{muPar()}. Notice that
-#'  parameters can also be set indivudually, using the options listed below. }
+#'  parameters can also be set individually, using the options listed below. }
 #'
 #'@param reset 
 #'  Single logical. If TRUE, all the parameters will be set to their
@@ -1150,7 +1150,7 @@ macroReadIndump <- function(
 # +-------------------------------------------------------------+ 
 
 ## # Trim non-alphanumeric suffixes in column 
-## # names. Because spaces are occasionnaly present in 
+## # names. Because spaces are occasionally present in 
 ## # the columns non-alphanumeric suffixes, some non-relevant 
 ## # characters may be left.
 .removeNonAlphaNumSuffix <- function( x ){
@@ -1236,7 +1236,7 @@ macroReadIndump <- function(
 ## # Read bin file from the Soil and MACRO models.
 ## #
 ## # Read bin file from the Soil and MACRO models. Adapted from 
-## #  an "anonymous" SLU origial code by Kristian Persson. R code 
+## #  an "anonymous" SLU original code by Kristian Persson. R code 
 ## #  vectorisation by Julien Moeys.
 ## #  
 ## #  Many global arguments can be set-up and retrieved via 
@@ -1718,7 +1718,7 @@ macroReadIndump <- function(
 #'
 #' Read bin file from the Soil and MACRO models, including 
 #'  MACRO intermediate-files for metabolite. Adapted by 
-#'  Kristian Perssonfrom an "anonymous" SLU origial code . 
+#'  Kristian Persson from an "anonymous" SLU original code . 
 #'  R code vectorisation by Julien Moeys.
 #'
 #' Some global arguments can be set-up and retrieved via \code{\link{muPar}}
@@ -1901,7 +1901,7 @@ macroReadBin.character <- function(
 
 #' Write bin file for the SOIL and MACRO models.
 #'
-#' Write bin file for the SOIL and MACRO models. Origial code by 
+#' Write bin file for the SOIL and MACRO models. Original code by 
 #'  Kristian Persson. R code vectorisation by Julien Moeys.
 #'
 #'
@@ -2416,22 +2416,6 @@ macroPlot <- function(
     }else{ 
         UseMethod( "macroPlot" ) 
     }   
-}   
-
-
-
-#'@rdname macroPlot-methods
-#'
-#'@export
-#'
-macroPlotBin <- function(
- x, 
- ...
-){  
-    message( "macroPlotBin() is now superseeded by macroPlot() (new generic method)" )
-    message( "Use macroPlot() instead, with the same arguments as for macroPlotBin()" )
-    
-    macroPlot.default( x = x, ... ) 
 }   
 
 
@@ -3391,7 +3375,7 @@ macroPlot.default <- function(
 #'  can be included.
 #'  
 #'@param by 
-#'  A charcater string representing a POSIXct format (see
+#'  A character string representing a POSIXct format (see
 #'  ?format.POSIXct). "\%Y-\%m-\%d" (the default) will aggregate the data by days
 #'  and "\%Y-\%m-\%d \%H", "\%Y-\%W", "\%Y-\%m" will aggregate the data by hour,
 #'  week of the year or month, respectively. Other combinations are possible.
@@ -3405,7 +3389,7 @@ macroPlot.default <- function(
 #'  data types if needed.
 #'
 #'@param dateCol 
-#'  Name of the column cotaining the POSIXct date values. Default
+#'  Name of the column containing the POSIXct date values. Default
 #'  is 'Date'.
 #'  
 #'  
@@ -3413,7 +3397,7 @@ macroPlot.default <- function(
 #'  Returns a data.frame with the values in columns aggregated by 'by'
 #'  with the function 'FUN'. Notice that the format of 'dateCol' is then
 #'  "character", and not any more POSIXct (because no uniform date format are
-#'  possible for exporying back the dates).
+#'  possible for exporting back the dates).
 #'  
 #'  
 #'@example inst/examples/macroAggregateBin-example.r
@@ -4368,11 +4352,11 @@ macroBugFixCleanDb <- function(
 #'  average are selected as follow: 
 #'  \code{min_index = floor(prob *(number of sim years used))} and 
 #'  \code{max_index = ceiling(prob *(number of sim years used))},
-#'  but in cases \code{min_index} is indentical to \code{max_index}, 
+#'  but in cases \code{min_index} is identical to \code{max_index}, 
 #'  then \code{max_index} is defined as \code{min_index + 1}, 
 #'  unless \code{prob} is 0 or 1 (to get the minimum 
 #'  or the maximum yearly concentrations, respectively). 
-#'  The number of simulatiob years used is equal to the total 
+#'  The number of simulation years used is equal to the total 
 #'  number of simulation years in \code{x} minus 
 #'  \code{nbYrsWarmUp}. In practice, what is calculated 
 #'  "a la FOCUS", when \code{prob = 0.8}, is an average 
@@ -4393,7 +4377,7 @@ macroBugFixCleanDb <- function(
 #'  from the two years closest to the Xth percentile 
 #'  concentration (where \code{X = prob * 100}). If 
 #'  \code{method = "R"}, the concentration is calculated using 
-#'  \code{R} function \code{\link[stats]{quantile}}, calcuted 
+#'  \code{R} function \code{\link[stats]{quantile}}, calculated 
 #'  directly on the yearly (or biennial or triennial) 
 #'  concentrations. If \code{method = "test"}, it is expected 
 #'  that the simulation is a "short test" simulation, for example 
@@ -5206,13 +5190,6 @@ macroutilsFocusGWConc.data.frame <- function(
     if( method == "R" ){
         out[[ "info_general" ]][, "quantile_type" ] <- type
     }   
-    
-    # #   Format the output and output attributes
-    # out <- percentilesOut 
-    # attr( x = out, which = "more" )        <- xPeriod
-    # attr( x = out, which = "nbYrsWarmUp" ) <- nbYrsWarmUp
-    # attr( x = out, which = "yearsXth" )    <- yearsXth
-    # attr( x = out, which = "negToZero" )   <- negToZero
     
     return( out ) 
 }   
