@@ -2,11 +2,5 @@
 *   Create tests (not in package) for substance GW-C with 
     biennial and triennial application intervals.
     
-*   macroutilsFocusGWConc() Document the new output format 
-    
-*   macroutilsFocusGWConc() Update test/ accounting for the 
-    new output format.
-    
-*   Relace the "file" argument by an "index" argument 
-    (more compact)
+*   Use `knitr` for the vignette instead of Sweave.
     
