@@ -13,7 +13,7 @@ library( "macroutils2" )
     package = "macroutils2", mustWork = TRUE ) )
 
 #   Read the file
-tmp1 <- macroReadBin( file = filenm, rmRunID = FALSE ) 
+tmp1 <- macroReadBin( f = filenm, rmRunID = FALSE ) 
 
 
 # 1.2. Generate a dummy temporary file where the table will be 
@@ -26,7 +26,7 @@ tmp1 <- macroReadBin( file = filenm, rmRunID = FALSE )
 
 #   NB: This table is NOT a standard SOIL or MACRO input file!
 
-macroWriteBin( file = filenm, x = tmp1 ) 
+macroWriteBin( f = filenm, x = tmp1 ) 
 
 #   NB: When writing the bin file, time zones are ignored!
 
@@ -34,7 +34,7 @@ macroWriteBin( file = filenm, x = tmp1 )
 
 # 1.4. Read that file again and check that it is the same:
 
-tmp1.b <- macroReadBin( file = filenm, rmRunID = FALSE ) 
+tmp1.b <- macroReadBin( f = filenm, rmRunID = FALSE ) 
 
 # Maximum difference (small numerical differences)
 unlist( lapply(

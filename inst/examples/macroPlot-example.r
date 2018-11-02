@@ -14,9 +14,9 @@ library( "macroutils2" )
 ) )
 
 #   Read these 2 files
-out1  <- macroReadBin( file = filenm[ 1 ] ) 
+out1  <- macroReadBin( f = filenm[ 1 ] ) 
 
-out2 <- macroReadBin( file = filenm[ 2 ] ) 
+out2 <- macroReadBin( f = filenm[ 2 ] ) 
 
 #   Inspect the data:
 head( out1 ); dim( out1 ) 

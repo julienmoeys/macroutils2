@@ -11,7 +11,7 @@ library( "macroutils2" )
     package = "macroutils2", mustWork = TRUE ) ) 
 
 #   Read the binary file
-tmp1 <- macroReadBin( file = filenm ) 
+tmp1 <- macroReadBin( f = filenm ) 
 
 #   Inspect the table
 colnames( tmp1 ) 

@@ -437,7 +437,7 @@ If you want to convert \texttt{"output\_chat\_winCer\_GW-C\_1kgHa\_d298.bin"} us
 
 <<echo=TRUE,eval=FALSE>>= 
 macroConvertBin( 
-    file = "output_chat_winCer_GW-C_1kgHa_d298.bin", 
+    f   = "output_chat_winCer_GW-C_1kgHa_d298.bin", 
     gui = FALSE ) 
 @ 
 
@@ -446,7 +446,7 @@ You can customise the file format, for example:
 
 <<echo=TRUE,eval=FALSE>>= 
 macroConvertBin( 
-    file    = "output_chat_winCer_GW-C_1kgHa_d298.bin", 
+    f       = "output_chat_winCer_GW-C_1kgHa_d298.bin", 
     gui     = FALSE,            # No Graphical Interface 
     sep     = ";",              # Field separator 
     dec     = ".",              # Decimal mark 
@@ -493,7 +493,7 @@ fOut <- file.path( dirOut, sprintf( "%s.csv", f ) )
 f <- file.path( fDir, f )
 
 #   Convert the files
-macroConvertBin( file = f, fileOut = fOut, gui = FALSE, 
+macroConvertBin( f = f, fileOut = fOut, gui = FALSE, 
     overwrite = TRUE ) 
 @ 
 
@@ -555,7 +555,7 @@ In non-interactive mode, you can type:
 
 <<echo=TRUE,eval=TRUE>>= 
 tbl <- macroReadBin( 
-    file = "output_chat_winCer_Met-GW-C_1kgHa_d298.bin" ) 
+    f = "output_chat_winCer_Met-GW-C_1kgHa_d298.bin" ) 
 @ 
 
 
@@ -588,7 +588,7 @@ simulation ID if it is present. For example:
 <<echo=TRUE,eval=TRUE>>=   
 #   Read the binary file
 tbl <- macroReadBin( 
-    file = "output_chat_winCer_Met-GW-C_1kgHa_d298.bin", 
+    f = "output_chat_winCer_Met-GW-C_1kgHa_d298.bin", 
     rmSpaces = FALSE ) 
 
 #   Look at column names (notice the spaces):
@@ -638,7 +638,7 @@ it is necessary to import some binary file(s) first:
 
 <<echo=TRUE,eval=TRUE>>= 
 tbl <- macroReadBin( 
-    file = "output_chat_winCer_Met-GW-C_1kgHa_d298.bin" ) 
+    f = "output_chat_winCer_Met-GW-C_1kgHa_d298.bin" ) 
 ## 
 ## Look at it:
 colnames( tbl ) 
