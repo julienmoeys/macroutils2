@@ -39,7 +39,7 @@ for( i in 1:length( examples ) ){
         examples[[ i ]][[ "bin" ]], 
         package = "macroutils2", mustWork = TRUE ) )
 
-    res <- macroutilsFocusGWConc( x = filenm ) 
+    res <- macroutilsFocusGWConc( x = filenm, quiet = TRUE ) 
 
     res 
 
@@ -62,7 +62,8 @@ for( i in 1:length( examples ) ){
     conc <- conc[ -c(1:6), ]
 
     #   Calculate the absolute differences
-    CONC_TLAYER <- attr( res, "more" )[, "CONC_TLAYER" ] 
+    # CONC_TLAYER <- attr( res, "more" )[, "CONC_TLAYER" ] 
+    CONC_TLAYER <- res[["solute_target_layer_by_period"]][, "ug_per_L" ]
 
     concDiffs <- conc[, "Av_FluxConc_at_reporting_depth" ] - 
         CONC_TLAYER
@@ -105,19 +106,20 @@ for( i in 1:length( examples ) ){
     # macroutils2
     # +--------------------------+
 
-    if( abs(examples[[ i ]][[ "FOCUS_PEC" ]] - res[,"concTLayer80th"]) > maxConcDif[ "gui" ] ){
+    if( abs(examples[[ i ]][[ "FOCUS_PEC" ]] - res[["conc_target_layer"]][ 1L, "ug_per_L" ]) > maxConcDif[ "gui" ] ){
         stop( sprintf( 
             "%s: The diff in PEC is bigger than the max acceptable diff: %s > %s (PECgw: MACRO In FOCUS %s; macroutils2 %s).", 
             names( examples )[ i ], 
-            abs(examples[[ i ]][[ "FOCUS_PEC" ]] - res[,"concTLayer80th"]), 
+            abs(examples[[ i ]][[ "FOCUS_PEC" ]] - res[["conc_target_layer"]][ 1L, "ug_per_L" ]), 
             maxConcDif[ "gui" ], 
             examples[[ i ]][[ "FOCUS_PEC" ]], 
-            res[,"concTLayer80th"]
+            res[["conc_target_layer"]][ 1L, "ug_per_L" ]
         ) ) 
     }   
 
     #   Periods selected (MACRO In FOCUS version control)
-    mu2_periods <- res[, c( "tLayerAvgPerFrom", "tLayerAvgPerTo" )]
+    # mu2_periods <- res[, c( "tLayerAvgPerFrom", "tLayerAvgPerTo" )]
+    mu2_periods <- res[["conc_target_layer"]][ 1L, c( "index_period1", "index_period2" ) ]
     mu2_periods <- as.integer( mu2_periods )
 
     if( !all( examples[[ i ]][[ "FOCUS_periods" ]] %in% mu2_periods ) ){
@@ -143,7 +145,8 @@ for( i in 1:length( examples ) ){
     #   Eliminate warm-up
     perc <- perc[ -c(1:6), ]
     
-    acc_WFLOWTOT <- attr( res, "more" )[, "acc_WFLOWTOT" ]
+    # acc_WFLOWTOT <- attr( res, "more" )[, "acc_WFLOWTOT" ]
+    acc_WFLOWTOT <- res[["water_target_layer_by_period"]][, "mm_tot" ]
     
     #   Calculate the absolute differences
     percDiffs <- perc[, "Percolation_at_reporting_depth" ] - 
