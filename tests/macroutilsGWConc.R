@@ -39,11 +39,11 @@ for( i in 1:length( examples ) ){
         examples[[ i ]][[ "bin" ]], 
         package = "macroutils2", mustWork = TRUE ) )
 
-    res <- macroInFocusGWConc( x = filenm ) 
+    res <- macroutilsFocusGWConc( x = filenm ) 
 
     res 
 
-    attr( res, "more" ) 
+    # attr( res, "more" ) 
 
 
 

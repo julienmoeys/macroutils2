@@ -10,8 +10,6 @@ res <- rmacroliteFocusGWConc( x = filenm )
 
 res 
 
-attr( res, "more" ) 
-
 #   Clean-up
 rm( filenm, res )  
 

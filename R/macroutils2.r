@@ -1248,11 +1248,11 @@ macroReadIndump <- function(
 ## #@seealso \code{\link[base]{readBin}}.
 ## #
 ## #
-## #@param file 
+## #@param f 
 ## #  Single character string or connection to a binary file. If 
 ## #  a character string, it should be the name of the binary file 
 ## #  which the data are to be read from. The path of the file may 
-## #  be provided as well, if file is not in the working directory.
+## #  be provided as well, if f is not in the working directory.
 ## #
 ## #@param \dots 
 ## #  Additional options passed to \code{\link[base]{readBin}}.
@@ -1266,7 +1266,7 @@ macroReadIndump <- function(
 ## #
 ## #
 .macroReadBin <- function(
-    file,
+    f,
     header, 
     rmSuffixes, 
     trimLength, 
@@ -1279,7 +1279,7 @@ macroReadIndump <- function(
 ){  # Reads an integer (4 byte) containting the numner of records 
     # and the length of each record
     record.number <- readBin( 
-        con  = file, 
+        con  = f, 
         what = "int",
         n    = 2L, 
         size = 4L, 
@@ -1307,7 +1307,7 @@ macroReadIndump <- function(
     
     # - Read the file
     binData <- readBin( 
-        con  = file, 
+        con  = f, 
         what = "raw",
         n    = total.length, 
         #size=NA, 
@@ -1605,7 +1605,7 @@ macroReadIndump <- function(
     if( exists(x = "choose.files", where = "package:utils" ) ){ 
         # fun <- get( "choose.files" ) 
         
-        file <- utils::choose.files(
+        f <- utils::choose.files(
             default = lastBinWd, # , "*.bin"
             caption = caption, 
             multi   = multi, 
@@ -1617,7 +1617,7 @@ macroReadIndump <- function(
         
         # fun <- get( "tk_choose.files" ) 
         
-        file <-tcltk::tk_choose.files(
+        f <-tcltk::tk_choose.files(
             default = lastBinWd, # , "*.bin"
             caption = caption, 
             multi   = multi, 
@@ -1626,11 +1626,11 @@ macroReadIndump <- function(
     }       
     
     ## Set the last folder where binary files were found:
-    lastBinWd <- .pathNoLastItem( p = file[1] ) 
+    lastBinWd <- .pathNoLastItem( p = f[1] ) 
     
     muPar( "lastBinWd" = lastBinWd ) 
     
-    return( file ) 
+    return( f ) 
 }   
 
 
@@ -1725,12 +1725,12 @@ macroReadIndump <- function(
 #'  and \code{\link{getMuPar}}.  Please check the help page of these functions
 #'  if you need to tune \code{\link[macroutils2:macroReadBin-methods]{macroReadBin}}.
 #'
-#'@param file 
+#'@param f 
 #'  Vector of character strings or a single \code{\link{connection}}
 #'  to a binary file. If a vector character strings, it should be the name(s) of
 #'  the binary file(s) which the data are to be read from. The path of the
-#'  file(s) may be provided as well, if file(s) is (are) not in the working
-#'  directory.
+#'  file(s) may be provided as well, if the file(s) is (are) 
+#'  not in the working directory.
 #'
 #'@param \dots Additional options passed to specific 
 #'  methods and to \code{\link[base]{readBin}}
@@ -1738,7 +1738,7 @@ macroReadIndump <- function(
 #'
 #'@return 
 #'  Returns a \code{data.frame} with the content of the bin file. 
-#'  If \code{length(file) > 1}, then a \code{list} of \code{data.frame} 
+#'  If \code{length(f) > 1}, then a \code{list} of \code{data.frame} 
 #'  is returned instead. The \code{Date} column in the bin file is 
 #'  converted from "Julian Date" into \code{\link[base:DateTimeClasses]{POSIXct}} 
 #'  date format.
@@ -1755,10 +1755,10 @@ macroReadIndump <- function(
 #'
 #'
 macroReadBin <- function(
-    file, 
+    f, 
     ...
 ){  
-    if( missing( file ) ){ 
+    if( missing( f ) ){ 
         UseMethod( "macroReadBin", object = character(0) )
     }else{ 
         UseMethod( "macroReadBin" )
@@ -1825,7 +1825,7 @@ macroReadBin <- function(
 #'@method macroReadBin character
 #'@export 
 macroReadBin.character <- function(
-    file, 
+    f, 
     header = TRUE, 
     rmSuffixes = TRUE, 
     trimLength = integer(), 
@@ -1836,31 +1836,31 @@ macroReadBin.character <- function(
     tz = "GMT", 
     ...
 ){  ## If no file name is provided
-    if( missing( file ) ){ 
+    if( missing( f ) ){ 
         if( interactive() ){ 
             ## Pop-up a menu to choose the bin file to be 
             ## imported
-            file <- .chooseBinFiles(
+            f <- .chooseBinFiles(
                 caption = "Select one or several binary file(s)", 
                 multi   = TRUE  
             )   
             
-            if( length(file) == 0 ){ 
+            if( length(f) == 0 ){ 
                 stop( "You haven't choosen any binary file to read :o(" )
             }   
             
-            file <- sort( file ) 
+            f <- sort( f ) 
         }else{ 
-            stop( "'file' can not be missing when R is not being used interactively" ) 
+            stop( "'f' can not be missing when R is not being used interactively" ) 
         }   
     }   
     
     
     bin <- lapply( 
-        X   = 1:length( file ), 
+        X   = 1:length( f ), 
         FUN = function(i){ 
             bin <- .macroReadBin( 
-                file          = file[ i ], 
+                f             = f[ i ], 
                 dateMethod    = dateMethod, 
                 rmSuffixes    = rmSuffixes, 
                 trimLength    = trimLength, 
@@ -1873,7 +1873,7 @@ macroReadBin.character <- function(
                 
             class( bin ) <- c( "macroTimeSeries", "data.frame" )
             
-            attr( x = bin, which = "file" ) <- file[ i ] 
+            attr( x = bin, which = "file" ) <- f[ i ] 
             
             return( bin ) 
         }   
@@ -1888,8 +1888,8 @@ macroReadBin.character <- function(
     }   
     
     
-    file <- .pathLastItem( p = file, noExt = TRUE )
-    attr( x = bin, which = "file" ) <- file 
+    f <- .pathLastItem( p = f, noExt = TRUE )
+    attr( x = bin, which = "file" ) <- f 
     
     
     return( bin )
@@ -1913,10 +1913,10 @@ macroReadBin.character <- function(
 #'  converted into integers, representing minutes since 2 days before the 1st of
 #'  Januray of year 0001 at 00:00. Missing values are not allowed.
 #'  
-#'@param file 
+#'@param f 
 #'  Single character string or connection to a binary file. If a
 #'  character string, it should be the name of the binary file which the data are
-#'  to be written from. The path of the file may be provided as well, if file is
+#'  to be written from. The path of the file may be provided as well, if \code{f} is
 #'  not in the working directory.
 #'  
 #'@param \dots 
@@ -1958,7 +1958,7 @@ macroWriteBin.macroTimeSeries <- function(
 #'@export 
 macroWriteBin.macroTimeSeriesList <- function(
  x, 
- file, 
+ f, 
  ...
 ){  
     if( is.data.frame( x ) ){ 
@@ -1968,10 +1968,10 @@ macroWriteBin.macroTimeSeriesList <- function(
         
         n <- length( unique( x[, 'index' ] ) ) 
         
-        if( n != length( file ) ){ 
+        if( n != length( f ) ){ 
             stop( sprintf( 
-                "length(unique(x[,'index'])) and length(file) must be identical (now %s and %s)", 
-                n, length( file ) 
+                "length(unique(x[,'index'])) and length(f) must be identical (now %s and %s)", 
+                n, length( f ) 
             ) ) 
         }   
         
@@ -1980,10 +1980,10 @@ macroWriteBin.macroTimeSeriesList <- function(
     }else if( is.list( x ) ){ 
         n <- length( x ) 
         
-        if( n != length( file ) ){ 
+        if( n != length( f ) ){ 
             stop( sprintf( 
-                "length(x) and length(file) must be identical (now %s and %s)", 
-                n, length( file ) 
+                "length(x) and length(f) must be identical (now %s and %s)", 
+                n, length( f ) 
             ) ) 
         }   
     }else{ 
@@ -1994,7 +1994,7 @@ macroWriteBin.macroTimeSeriesList <- function(
     out <- lapply( 
         X   = 1:n, 
         FUN = function(i){ 
-            macroWriteBin.data.frame( x = x[[ i ]], file = file[ i ], ... )
+            macroWriteBin.data.frame( x = x[[ i ]], f = f[ i ], ... )
         }   
     )   
     
@@ -2010,14 +2010,15 @@ macroWriteBin.macroTimeSeriesList <- function(
 #'@export 
 macroWriteBin.list <- function(
  x, 
+ f, 
  ...
 ){  
     n <- length(x)
     
-    if( n != length( file ) ){ 
+    if( n != length( f ) ){ 
         stop( sprintf( 
-            "length(x) and length(file) must be identical (now %s and %s)", 
-            n, length( file ) 
+            "length(x) and length(f) must be identical (now %s and %s)", 
+            n, length( f ) 
         ) ) 
     }   
     
@@ -2038,7 +2039,7 @@ macroWriteBin.list <- function(
     out <- lapply( 
         X   = 1:n, 
         FUN = function(i){ 
-            macroWriteBin.data.frame( x = x[[ i ]], file = file[ i ], ... )
+            macroWriteBin.data.frame( x = x[[ i ]], f = f[ i ], ... )
         }   
     )   
     
@@ -2062,7 +2063,7 @@ macroWriteBin.list <- function(
 #'@export 
 macroWriteBin.data.frame <- function(
     x,
-    file,
+    f,
     header = TRUE, 
     dateMethod = 1L, 
     tz = "GMT", 
@@ -2286,7 +2287,7 @@ macroWriteBin.data.frame <- function(
     }   #
     #
     writeBin( 
-        con    = file, 
+        con    = f, 
         object = binData,
         size   = NA, 
         ... 
@@ -3570,11 +3571,11 @@ macroStripRunID <- function(
 #'  the field delimiter and the decimal mark.
 #'
 #'
-#'@param file 
+#'@param f 
 #'  Vector of character strings or a single \code{\link{connection}}
 #'  to a binary file. If a vector character strings, it should be the name(s) of
 #'  the binary file(s) which the data are to be read from. The path of the
-#'  file(s) may be provided as well, if file(s) is (are) not in the working
+#'  file(s) may be provided as well, if the file(s) is (are) not in the working
 #'  directory.
 #'  
 #'@param gui 
@@ -3614,7 +3615,7 @@ macroStripRunID <- function(
 #'
 #' 
 macroConvertBin <- function(# Converts MACRO/SOIL binary files into CSV or TXT text files
-    file, 
+    f, 
     gui       = TRUE, 
     sep       = ",", 
     dec       = ".", 
@@ -3623,28 +3624,28 @@ macroConvertBin <- function(# Converts MACRO/SOIL binary files into CSV or TXT t
     overwrite = FALSE, 
     ...
 ){  ## If no file name is provided
-    if( missing( file ) ){ 
+    if( missing( f ) ){ 
         if( interactive() ){ 
             ## Pop-up a menu to choose the bin file to be 
             ## imported
-            file <- .chooseBinFiles(
+            f <- .chooseBinFiles(
                 caption = "Select one or several binary file(s)", 
                 multi   = TRUE  
             )   
             
-            if( length(file) == 0 ){ 
+            if( length(f) == 0 ){ 
                 stop( "You haven't choosen any binary file to read :o(" )
             }   
             
-            file <- sort( file ) 
+            f <- sort( f ) 
         }else{ 
-            stop( "'file' can not be missing when R is not being used interactively" ) 
+            stop( "'f' can not be missing when R is not being used interactively" ) 
         }   
     }   
     
     
     ## Read the files:
-    x <- macroReadBin( file = file, ... ) 
+    x <- macroReadBin( f = f, ... ) 
     
     
     if( gui ){ 
@@ -3701,12 +3702,12 @@ macroConvertBin <- function(# Converts MACRO/SOIL binary files into CSV or TXT t
     ## Create new file names (if needed):
     if( is.null( fileOut ) ){ 
         fileOut <- paste0( 
-            file, 
+            f, 
             ifelse( sep %in% c("\t"," ",""), ".txt", ".csv" )
         )   
     }else{ 
-        if( length( fileOut ) != length( file ) ){ 
-            stop( "'file' and 'fileOut' must be of the same length" )
+        if( length( fileOut ) != length( f ) ){ 
+            stop( "'f' and 'fileOut' must be of the same length" )
         }   
     }   
     
@@ -3752,7 +3753,7 @@ macroConvertBin <- function(# Converts MACRO/SOIL binary files into CSV or TXT t
     
     
     
-    for( f in 1:length(file) ){ 
+    for( f in 1:length(f) ){ 
         x0 <- x[[f]] 
         class(x0) <- "data.frame"
         
@@ -3780,11 +3781,11 @@ macroConvertBin <- function(# Converts MACRO/SOIL binary files into CSV or TXT t
 #' Reads a MACRO/SOIL binary file and view it as a table.
 #'
 #'
-#'@param file 
+#'@param f 
 #'  Single character strings or a single \code{\link{connection}} to
 #'  a binary file. If a vector character strings, it should be the name of the
 #'  binary file which the data are to be read from. The path of the file may be
-#'  provided as well, if file is not in the working directory.
+#'  provided as well, if \code{f} is not in the working directory.
 #'  
 #'@param \dots 
 #'  More arguments passed to \code{\link[macroutils2:macroReadBin-methods]{macroReadBin}}.
@@ -3795,35 +3796,35 @@ macroConvertBin <- function(# Converts MACRO/SOIL binary files into CSV or TXT t
 #'
 #'@importFrom utils View
 macroViewBin <- function(
-    file, 
+    f, 
     ...
 ){  ## If no file name is provided
-    if( missing( file ) ){ 
+    if( missing( f ) ){ 
         if( interactive() ){ 
             ## Pop-up a menu to choose the bin file to be 
             ## imported
-            file <- .chooseBinFiles(
+            f <- .chooseBinFiles(
                 caption = "Select one or several binary file(s)", 
                 multi   = FALSE   
             )   
             
-            if( length(file) == 0 ){ 
+            if( length(f) == 0 ){ 
                 stop( "You haven't choosen any binary file to read :o(" )
             }   
             
-            file <- sort( file ) 
+            f <- sort( f ) 
         }else{ 
-            stop( "'file' can not be missing when R is not being used interactively" ) 
+            stop( "'f' can not be missing when R is not being used interactively" ) 
         }   
     }   
     
     
     ## Read the files:
-    x <- macroReadBin( file = file[1], ... ) 
+    x <- macroReadBin( f = f[1], ... ) 
     
     
     ## View the file     
-    utils::View( x, title = file[1] )  
+    utils::View( x, title = f[1] )  
     
     return( invisible( x ) ) 
 }   
@@ -3891,7 +3892,7 @@ macroViewBin <- function(
     if( exists(x = "choose.files", where = "package:utils" ) ){ 
         # fun <- get( "choose.files" ) 
         
-        file <- utils::choose.files(
+        f <- utils::choose.files(
             default = lastBinWd, # , "*.bin"
             caption = caption, 
             multi   = multi, 
@@ -3903,7 +3904,7 @@ macroViewBin <- function(
         
         # fun <- get( "tk_choose.files" ) 
         
-        file <- tcltk::tk_choose.files(
+        f <- tcltk::tk_choose.files(
             default = lastBinWd, # , "*.bin"
             caption = caption, 
             multi   = multi, 
@@ -3916,11 +3917,11 @@ macroViewBin <- function(
     
     
     ## Set the last folder where binary files were found:
-    lastBinWd <- .pathNoLastItem( p = file[1] ) 
+    lastBinWd <- .pathNoLastItem( p = f[1] ) 
     
     muPar( "lastBinWd" = lastBinWd ) 
     
-    return( file ) 
+    return( f ) 
 }   
 
 
@@ -3940,12 +3941,12 @@ macroViewBin <- function(
 #'  if it has been installed).
 #'
 #'
-#'@param file 
+#'@param f 
 #'  Vector of character strings or a single \code{\link{connection}}
 #'  to a MACRO GUI MS Access parameter database. If a vector of 
 #'  character strings, it should be the name(s) of
 #'  the Access database(s) containing MACRO parameters. The path 
-#'  of the file(s) may be provided as well, if file(s) 
+#'  of the file(s) may be provided as well, if the file(s) 
 #'  is (are) not in the working directory.
 #'
 #'@param paranoia 
@@ -3970,9 +3971,9 @@ macroViewBin <- function(
 #'@importFrom utils select.list
 #'@importFrom utils installed.packages
 macroBugFixCleanDb <- function(
- file, 
- paranoia = TRUE, 
- ...
+    f, 
+    paranoia = TRUE, 
+    ...
 ){      
     testRODBC <- "RODBC" %in% rownames( utils::installed.packages() )
     
@@ -3991,22 +3992,22 @@ macroBugFixCleanDb <- function(
     
     
     ## If no file name is provided
-    if( missing( file ) ){ 
+    if( missing( f ) ){ 
         if( interactive() ){ 
             ## Pop-up a menu to choose the bin file to be 
             ## imported
-            file <- .chooseAccessFiles(
+            f <- .chooseAccessFiles(
                 caption = "Select one or several MACRO parameter database(s) (MS Access)", 
                 multi   = TRUE  
             )   
             
-            if( length(file) == 0 ){ 
+            if( length(f) == 0 ){ 
                 stop( "You haven't choosen any binary file to read :o(" )
             }   
             
-            file <- sort( file ) 
+            f <- sort( f ) 
         }else{ 
-            stop( "'file' can not be missing when R is not being used interactively" ) 
+            stop( "'f' can not be missing when R is not being used interactively" ) 
         }   
     }   
     
@@ -4027,13 +4028,13 @@ macroBugFixCleanDb <- function(
     
     
     silent <- lapply( 
-        X   = file, 
-        FUN = function(f){ 
-            # f <- file[1]
+        X   = f, 
+        FUN = function(.f){ 
+            # f <- f[1]
             
-            message( sprintf( "Starts processing database: '%s'.", f ) )
+            message( sprintf( "Starts processing database: '%s'.", .f ) )
             
-            channel <- RODBC::odbcConnectAccess( access.file = f ) 
+            channel <- RODBC::odbcConnectAccess( access.file = .f ) 
             
             on.exit( try( RODBC::odbcClose( channel = channel ) ) )
             
@@ -4047,7 +4048,7 @@ macroBugFixCleanDb <- function(
                 stop( sprintf( 
                     "The table(s) %s cannot be found in the database (%s)", 
                     paste( .tables[ !testTables ], collapse = "; " ), 
-                    f 
+                    .f 
                 ) ) 
             };  rm( .tables, testTables ) 
             
@@ -4417,6 +4418,13 @@ macroBugFixCleanDb <- function(
 #'  Single integer value. Only used when \code{method = "R"} 
 #'  (see above). See \code{\link[stats]{quantile}}.
 #'
+#'@param massunits
+#'  Single integer value. Code for the mass unit of the simulation 
+#'  result in \code{x}. \code{1} is micro-grams, \code{2}is 
+#'  milligrams (the default in MACRO In FOCUS and thus in this 
+#'  function), \code{2} is grams and \code{4} is kilograms. 
+#'  Corresponds to the parameter \code{MASSUNITS} in MACRO.
+#'
 #'@param \dots
 #'  Additional parameters passed to 
 #'  \code{\link[macroutils2:macroReadBin-methods]{macroReadBin}}, when \code{x} is 
@@ -4425,109 +4433,167 @@ macroBugFixCleanDb <- function(
 #'
 #'
 #'@return 
-#'  Returns a \code{\link[base]{data.frame}} with one row per 
-#'  input file (or table), and the following columns 
+#'  Returns a \code{\link[base]{list}} with the following items:
 #'  \itemize{
-#'    \item \code{concPercXth} (where \code{X} is 
-#'      \code{prob * 100}): The Xth time-percentile of the 
-#'      yearly, binennial or triennial (etc.) average pesticide 
-#'      concentration in the water percolating 
-#'      at the lower boundary of the soil. Derived from the 
-#'      columns \code{TSOUT} and \code{TFLOWOUT}. Corresponds 
-#'      to \code{CONC_PERC} in the table of yearly concentrations 
-#'      (see below). For most scenario the target depth is 
-#'      used rather than the percolation at the base of the 
-#'      soil profile (see below).
-#'    \item \code{concTLayerXth}  (where \code{X} is 
-#'      \code{prob * 100}): The 
-#'      Xth time-percentile of the yearly, binennial or triennial 
-#'      average pesticide concentration in the water flowing 
-#'      through layer T (T depending on the FOCUS-scenario, 
-#'      also called "target depth" in MACROInFOCUS)  
-#'      at depth Y. Derived from \code{SFLOW_}, 
-#'      \code{SFLOWOUT_}, \code{WOUT_} and \code{WFLOWOUT_}, 
-#'      after converting these variables to daily values and 
-#'      cumulating them for each year. Corresponds 
-#'      to \code{CONC_TLAYER} in the table of yearly concentrations 
-#'      (see below).
-#'    \item \code{tLayerAvgPerFrom} and \code{tLayerAvgPerTo}: 
-#'      The 1st and 2nd periods corresponding to the Xth-percentile 
-#'      concentration after ordering them by order of 
-#'      increasing \code{CONC_TLAYER}. For example, in the 
-#'      case of a yearly pesticide application, values of 
-#'      10 and 15, respectively, indicate that the 10th and 
-#'      the 15th simulation year, in chronological order and 
-#'      after discarding the warm-up period, were used to 
-#'      calculate the Xth time-percentile concentration at 
-#'      the target depth.
-#'    \item \code{percAvgPerFrom} and \code{percAvgPerTo}: 
-#'      The 1st and 2nd periods corresponding to the Xth-percentile 
-#'      concentration after ordering them by order of 
-#'      increasing \code{CONC_PERC}. For example, in the 
-#'      case of a yearly pesticide application, values of 
-#'      10 and 15, respectively, indicate that the 10th and 
-#'      the 15th simulation year, in chronological order and 
-#'      after discarding the warm-up period, were used to 
-#'      calculate the Xth time-percentile concentration at the 
-#'      base of the soil.
-#'    \item \code{avgIndexFrom} and \code{avgIndexTo}: 
-#'      The 1st and 2nd period-indexes from which the 
-#'      Xth-percentile concentration after ordering them by 
-#'      order of increasing \code{CONC_TLAYER} or 
-#'      \code{CONC_PERC}. For example, in the 
-#'      case of a yearly pesticide application, values of 
-#'      16 and 17, respectively, indicate that the 16th and 
-#'      the 17th simulation year, after discarding the warm-up 
-#'      period and ordering the periods in order of increasing 
-#'      average concentration (at the target depth or at the 
-#'      base of the soil profile), were used to 
-#'      calculate the Xth time-percentile concentration at the 
-#'      base of the soil and at the target depth.
-#'    \item \code{percentile}: The percentile used to calculate 
-#'      the concentrations. Equal to \code{prob * 100}. 
-#'      See argument \code{prob} above.
-#'    \item \code{method}: See argument \code{method} above.
-#'    \item \code{nbSimYrsUsed}: Number of simulation years 
-#'      used for the calculation, after discarding the warm-up 
-#'      period.
-#'    \item \code{nbYrsAvgPeriod}: Number of simulation years 
-#'      aggregated to calculate the average concentration of 
-#'      each "period". 1, 2 or 3 in cases of yearly, biennial 
-#'      or triennial pesticide application freqency.
-#'    \item \code{nbYrsWarmUp}: Number of simulation 
-#'      years discared as a warm-up period.
-#'    \item \code{fSolYLayerMacXth} (where \code{X} is 
-#'      \code{prob * 100}): Experimental. The average 
-#'      mass-fraction of the total solute flow due to transport 
-#'      in the micropores, for the same two years as used 
-#'      to calculate the Xth percentile of 
-#'      \code{concTLayerXth}.
-#'    \item \code{fSolTLayerMicXth} (where \code{X} is 
-#'      \code{prob * 100}): Experimental. The average 
-#'      mass-fraction of the total solute flow due to transport 
-#'      in the macropores, for the same two years as used 
-#'      to calculate the Xth percentile of 
-#'      \code{concTLayerXth}.
-#'    \item \code{file}: Path and name of the input file 
-#'      from which the calculations were performed.
+#'    \item{"info\_general"}{
+#'      A \code{\link[base]{data.frame}} with the following columns:
+#'      \itemize{
+#'        \item{"conc\_percentile"}{The percentile used to 
+#'          calculate the Predicted Environmental Concentration 
+#'          (columns \code{ug\_per\_L} in items 
+#'          \code{conc\_target\_layer} and \code{conc\_perc}, 
+#'          below), in [\%].}
+#'        \item{"rank\_period1"}{The rank of the first 
+#'          simulation period used to calculate \code{ug\_per\_L},
+#'          when ordered by increasing average concentration.}
+#'        \item{"rank\_period2"}{The rank of the second 
+#'          simulation period used to calculate \code{ug\_per\_L},
+#'          when ordered by increasing average concentration.}
+#'        \item{"method"}{See argument \code{method} above.}
+#'        \item{"nb\_sim\_yrs\_used"}{Number of simulation years 
+#'          used for the calculation, after discarding the warm-up 
+#'          period.}
+#'        \item{"nb\_yrs\_per\_period"}{Number of simulation years 
+#'          aggregated to calculate the average concentration of 
+#'          each "period". 1, 2 or 3 in cases of yearly, biennial 
+#'          or triennial pesticide application frequency.}
+#'        \item{"nb\_yrs\_warmup"}{Number of simulation 
+#'          years discarded as a warm-up period.}
+#'        \item{"neg\_conc\_set\_to\_0"}{See \code{negToZero} 
+#'          above.}
+#'      }  
+#'    }  
+#'    \item{"info\_period"}{
+#'      A \code{\link[base]{data.frame}} with the following columns:
+#'      \itemize{
+#'        \item{"period\_index"}{Index of the simulation 
+#'          period when periods are sorted in chronological 
+#'          order (i.e. \code{1} is the first or earliest 
+#'          period).}
+#'        \item{"from\_year"}{First year included in the period.}
+#'        \item{"to\_year"}{Last year included in the period.}
+#'      }  
+#'    } 
+#'    \item{"water\_target\_layer\_by\_period"}{
+#'      A \code{\link[base]{data.frame}} with the following columns:
+#'      \itemize{
+#'        \item{"period\_index"}{See above.}
+#'        \item{"mm\_mic"}{Accumulated amount of water 
+#'          passed through the micropores in target layer 
+#'          over the period, downward (positive) or upward 
+#'          (negative), in [mm] of water.}
+#'        \item{"mm\_mac"}{Accumulated amount of water 
+#'          passed through the macropores in target layer 
+#'          over the period, downward (positive) or upward 
+#'          (negative), in [mm] of water.}
+#'        \item{"mm\_tot"}{Accumulated amount of water 
+#'          passed through the target layer 
+#'          over the period, downward (positive) or upward 
+#'          (negative), in [mm] of water.}
+#'      }  
+#'    } 
+#'    \item{"solute\_target\_layer\_by\_period"}{
+#'      A \code{\link[base]{data.frame}} with the following columns:
+#'      \itemize{
+#'        \item{"period\_index"}{See above.}
+#'        \item{"mg\_per\_m2\_mic"}{Accumulated mass of 
+#'          solute passed through the micropores, per square 
+#'          meter, in target layer, over the period, 
+#'          downward (positive) or upward (negative), in 
+#'          [mg/ m2].}
+#'        \item{"mg\_per\_m2\_mac"}{Accumulated mass of 
+#'          solute passed through the macropores, per square 
+#'          meter, in target layer, over the period, 
+#'          downward (positive) or upward (negative), in 
+#'          [mg/ m2].}
+#'        \item{"mg\_per\_m2\_tot"}{Accumulated mass of 
+#'          solute passed through the target layer, per square 
+#'          meter, over the period, downward (positive) or 
+#'          upward (negative), in [mg/ m2].}
+#'        \item{"ug\_per\_L"}{Water-flow-weighted average 
+#'          solute concentration over the period, in 
+#'          [micro-grams/L] or [mg/m3]. In practice equal 
+#'          to the accumulated solute mass divided by the 
+#'          accumulated water flow, with appropriate unit 
+#'          conversion.}
+#'      }  
+#'    } 
+#'    \item{"water\_perc\_by\_period"}{
+#'      A \code{\link[base]{data.frame}} with the following columns:
+#'      \itemize{
+#'        \item{"period\_index"}{See above.}
+#'        \item{"mm"}{Accumulated amount of water 
+#'          passed through the bottom layer of the soil profile 
+#'          over the period, downward (positive) or upward 
+#'          (negative), in [mm] of water.}
+#'      }  
+#'    } 
+#'    \item{"solute\_perc\_by\_period"}{
+#'      A \code{\link[base]{data.frame}} with the following columns:
+#'      \itemize{
+#'        \item{"period\_index"}{See above.}
+#'        \item{"mg\_per\_m2"}{Accumulated mass of 
+#'          solute passed through the bottom layer of the soil 
+#'          profile , per square meter, over the period, 
+#'          downward (positive) or upward (negative), in 
+#'          [mg/ m2].}
+#'        \item{"ug\_per\_L"}{Water-flow-weighted average 
+#'          solute concentration over the period, in 
+#'          [micro-grams/L] or [mg/m3]. In practice equal 
+#'          to the accumulated solute mass divided by the 
+#'          accumulated water flow, with appropriate unit 
+#'          conversion.}
+#'      }  
+#'    } 
+#'    \item{"conc\_target\_layer"}{
+#'      A \code{\link[base]{data.frame}} with the following columns:
+#'      \itemize{
+#'        \item{"ug\_per\_L"}{Xth percentile of the period-
+#'          averaged solute concentrations in the target 
+#'          layer, where X is equal to \code{conc\_percentile} 
+#'          (See above).}
+#'        \item{"index\_period1"}{Index of the first simulation 
+#'          period used to calculate the Xth percentile of 
+#'          the period-averaged solute concentrations. 
+#'          Corresponds to the column \code{period\_index} in 
+#'          the tables above.}
+#'        \item{"index\_period2"}{Index of the second simulation 
+#'          period used to calculate the Xth percentile of 
+#'          the period-averaged solute concentrations. 
+#'          Corresponds to the column \code{period\_index} in 
+#'          the tables above.}
+#'        \item{"f\_solute\_mac"}{Average fraction of solute 
+#'          in the macropores corresponding to 
+#'          \code{ug\_per\_L}, 0 meaning 0\% of the solute in 
+#'          the macropres and 1 meaning 100\% of the solute 
+#'          in the macropores.}
+#'        \item{"f\_solute\_mic"}{Average fraction of solute 
+#'          in the micropores corresponding to 
+#'          \code{ug\_per\_L}, 0 meaning 0\% of the solute in 
+#'          the micropres and 1 meaning 100\% of the solute 
+#'          in the micropores.}
+#'      }  
+#'    } 
+#'    \item{"conc\_perc"}{
+#'      A \code{\link[base]{data.frame}} with the following columns:
+#'      \itemize{
+#'        \item{"ug\_per\_L"}{Xth percentile of the period-
+#'          averaged solute concentrations percolated at the 
+#'          bottom boundary of the soil profile, where X is 
+#'          equal to \code{conc\_percentile} (See above).}
+#'        \item{"index\_period1"}{Index of the first simulation 
+#'          period used to calculate the Xth percentile of 
+#'          the period-averaged solute concentrations. 
+#'          Corresponds to the column \code{period\_index} in 
+#'          the tables above.}
+#'        \item{"index\_period2"}{{Index of the second simulation 
+#'          period used to calculate the Xth percentile of 
+#'          the period-averaged solute concentrations. 
+#'          Corresponds to the column \code{period\_index} in 
+#'          the tables above.}
+#'      }  
+#'    } 
 #'  }   
-#'  In addition to this table, an \code{\link{attr}}ibute  
-#'  is attached to the output table. This attribute is 
-#'  names \code{more}, can be obtained by typing 
-#'  \code{\link[base]{attr}( output, "more" )}, and contains 
-#'  a table with all the yearly results for all the input files.
-#'  It has the following columns: \code{"year"}, \code{"TSOUT"}, 
-#'  \code{"TFLOWOUT"}, \code{"acc_SFLOW"}, \code{"acc_SFLOWOUT"}, 
-#'  \code{"acc_WOUT"}, \code{"acc_WFLOWOUT"}, \code{"acc_WFLOWTOT"}, 
-#'  \code{"acc_SFLOWTOT"}, \code{"CONC_PERC"}, \code{"CONC_TLAYER"}, 
-#'  \code{"file"}. \code{"TSOUT"} and \code{"TFLOWOUT"} have 
-#'  been de-accumulated and then re-accumulated for each simulation 
-#'  \code{year}. All the columns starting with \code{acc_} 
-#'  have been first converted to daily flow (instead of hourly 
-#'  flow) and then accumulated for each simulation \code{year}. 
-#'  \code{file} is the same as above. The total number of rows 
-#'  should be \code{20 * length(x)} (20 simulation years times 
-#'  number of input tables from MACROInFOCUS).
 #'
 #'
 #'@example inst/examples/macroutilsFocusGWConc-examples.r
@@ -4546,6 +4612,7 @@ macroutilsFocusGWConc <- function(
     negToZero = TRUE, 
     type = 7L, 
     quiet = FALSE, 
+    massunits = 2L, 
     ...
 ){  
     UseMethod( "macroutilsFocusGWConc" )
@@ -4568,13 +4635,14 @@ macroutilsFocusGWConc.character <- function(
     negToZero = TRUE, 
     type = 7L, 
     quiet = FALSE, 
+    massunits = 2L, 
     ...
 ){  
     # if( length( x ) > 1L ){ 
         # stop( "length( x ) > 1L. One file at a time" ) 
     # }   
     
-    out <- macroReadBin( file = x, ... ) 
+    out <- macroReadBin( f = x, ... ) 
     
     #   Add the file name to the table, as a column
     #   so it can be used later to identify the simulation
@@ -4583,18 +4651,22 @@ macroutilsFocusGWConc.character <- function(
             X   = 1:length(x), 
             FUN = function( i ){
                 out_i <- out[[ i ]]
-                out_i[, "file" ] <- x[ i ]
+                
+                attr( out_i, which = "file" ) <- x[ i ]
+                # out_i[, "file" ] <- x[ i ]
+                
                 return( out_i )
             }   
         )   
     }else{
-        out[, "file" ] <- x
+        # out[, "file" ] <- x
+        attr( out, which = "file" ) <- x
     }   
     
     return( macroutilsFocusGWConc( x = out, nbYrsWarmUp = nbYrsWarmUp, 
         yearsAvg = yearsAvg, prob = prob, method = method, 
         negToZero = negToZero, quiet = quiet, type = type, 
-        ... ) ) 
+        massunits = massunits, ... ) ) 
 }   
 
 
@@ -4614,21 +4686,22 @@ macroutilsFocusGWConc.list <- function(
     negToZero = TRUE, 
     type = 7L, 
     quiet = FALSE, 
+    massunits = 2L, 
     ...
 ){  
-    #   Add the column 'file' if it is not in there yet
-    x <- lapply(
-        X   = 1:length( x ), 
-        FUN = function( i ){
-            xSubset <- x[[ i ]] 
+    # #   Add the column 'file' if it is not in there yet
+    # x <- lapply(
+        # X   = 1:length( x ), 
+        # FUN = function( i ){
+            # xSubset <- x[[ i ]] 
             
-            if( !("file" %in% colnames( xSubset )) ){
-                xSubset[, "file" ] <- as.character( i ) 
-            }   
+            # if( !("file" %in% colnames( xSubset )) ){
+                # xSubset[, "file" ] <- as.character( i ) 
+            # }   
             
-            return( xSubset ) 
-        }   
-    )   
+            # return( xSubset ) 
+        # }   
+    # )   
     
     #   Process each table one by one
     out <- lapply(
@@ -4638,33 +4711,33 @@ macroutilsFocusGWConc.list <- function(
                 nbYrsWarmUp = nbYrsWarmUp, yearsAvg = yearsAvg, 
                 prob = prob, method = method, 
                 negToZero = negToZero, quiet = quiet, 
-                type = type, ... ) )
+                type = type, massunits = massunits, ... ) )
         }   
     )   
     
-    #   Recover and bind the additional attribute into 
-    #   a big table
-    more <- lapply(
-        X   = out, 
-        FUN = function(o){
-            return( attr( x = o, which = "more" ) ) 
-        }   
-    )   
-    more <- do.call( what = "rbind", args = more )
+    # #   Recover and bind the additional attribute into 
+    # #   a big table
+    # more <- lapply(
+        # X   = out, 
+        # FUN = function(o){
+            # return( attr( x = o, which = "more" ) ) 
+        # }   
+    # )   
+    # more <- do.call( what = "rbind", args = more )
     
-    #   Extract other attributes
-    nbYrsWarmUp <- attr( x = out[[ 1L ]], which = "nbYrsWarmUp" ) 
-    yearsXth   <- attr( x = out[[ 1L ]], which = "yearsXth" ) 
-    negToZero   <- attr( x = out[[ 1L ]], which = "negToZero" ) 
+    # #   Extract other attributes
+    # nbYrsWarmUp <- attr( x = out[[ 1L ]], which = "nbYrsWarmUp" ) 
+    # yearsXth   <- attr( x = out[[ 1L ]], which = "yearsXth" ) 
+    # negToZero   <- attr( x = out[[ 1L ]], which = "negToZero" ) 
     
-    #   Bind the main output into a table too
-    out <- do.call( what = "rbind", args = out )
+    # #   Bind the main output into a table too
+    # out <- do.call( what = "rbind", args = out )
     
-    #   Add an attribute to the final table
-    attr( x = out, which = "more" )        <- more 
-    attr( x = out, which = "nbYrsWarmUp" ) <- nbYrsWarmUp
-    attr( x = out, which = "yearsXth" )    <- yearsXth
-    attr( x = out, which = "negToZero" )   <- negToZero
+    # #   Add an attribute to the final table
+    # attr( x = out, which = "more" )        <- more 
+    # attr( x = out, which = "nbYrsWarmUp" ) <- nbYrsWarmUp
+    # attr( x = out, which = "yearsXth" )    <- yearsXth
+    # attr( x = out, which = "negToZero" )   <- negToZero
 
     return( out ) 
 }   
@@ -4685,12 +4758,33 @@ macroutilsFocusGWConc.data.frame <- function(
     negToZero = TRUE, 
     type = 7L, 
     quiet = FALSE, 
+    massunits = 2L, 
     ...
 ){  
     if( !quiet ){
         message( "WARNING: Not part of the official MACROInFOCUS program" )
         message( "  Provided only for test purpose. See help page for more information." )
         message( "  Set 'quiet' to TRUE to suppress these messages" )
+    }   
+    
+    #   Coefficient to convert to g active substance per ha
+    if( massunits == 1L ){          #   micro-grams
+        mg_per_massunit <- 1/1000
+        
+    }else if( massunits == 2L ){    #   milligrams
+        mg_per_massunit <- 1 
+        
+    }else if( massunits == 3L ){    #   grams
+        mg_per_massunit <- 1000
+        
+    }else if( massunits == 4L ){    #   kilograms
+        mg_per_massunit <- 1000000
+        
+    }else{
+        stop( sprintf( 
+            "Unknown value for MASSUNITS (%s) in the par file. Expects 1, 2, 3 or 4.", 
+            massunits
+        ) ) 
     }   
     
     #   Find out the relevant column names (independently of 
@@ -4718,9 +4812,9 @@ macroutilsFocusGWConc.data.frame <- function(
         stop( "No or more than one column matching 'SFLOWOUT_'" )
     }   
     
-    if( !("file" %in% colnames( x )) ){
-        x[, "file" ] <- as.character( NA )
-    }   
+    # if( !("file" %in% colnames( x )) ){
+        # x[, "file" ] <- as.character( NA )
+    # }   
     
     #   Check that expected columns are present
     expectCols <- c( "Date", wOutCol, 
@@ -4737,6 +4831,8 @@ macroutilsFocusGWConc.data.frame <- function(
     }   
     
     #   De-aggregate TSOUT and TFLOWOUT
+    x[, "TSOUT" ] <- x[, "TSOUT" ] * mg_per_massunit # Unit conversion (to mg)
+    
     x[, "dTSOUT" ]    <- NA_real_ 
     x[ 1L, "dTSOUT" ] <- x[ 1L, "TSOUT" ]
     x[ 2L:nrow(x), "dTSOUT" ] <- 
@@ -4750,6 +4846,9 @@ macroutilsFocusGWConc.data.frame <- function(
     #   Convert flow rates from hourly to daily
     #   Note: no quotes around sFlowCol, as it is a variable 
     #   containing the column name (and not a column  name)
+    x[, sFlowCol ] <- x[, sFlowCol ] * mg_per_massunit # Unit conversion (to mg)
+    x[, sFlowOutCol ] <- x[, sFlowOutCol ] * mg_per_massunit # Unit conversion (to mg)
+    
     x[, "SFLOW_DAILY" ]    <- x[, sFlowCol ]    * 24
     x[, "SFLOWOUT_DAILY" ] <- x[, sFlowOutCol ] * 24
     x[, "WOUT_DAILY" ]     <- x[, wOutCol ]     * 24
@@ -4784,7 +4883,7 @@ macroutilsFocusGWConc.data.frame <- function(
     #   Check that there are indeed 20 years left
     nbYears <- length( unique( years ) )
     
-    message( sprintf( "nbYears: %s",nbYears ) )
+    # message( sprintf( "nbYears: %s",nbYears ) )
     
     if( nbYears == 0L ){
         stop( 
@@ -4935,8 +5034,8 @@ macroutilsFocusGWConc.data.frame <- function(
         xPeriod[, "acc_SFLOWOUT" ] / 
         (xPeriod[, "acc_SFLOW" ] + xPeriod[, "acc_SFLOWOUT" ]) 
     
-    #   Add the file name to the table:
-    xPeriod[, "file" ] <- x[ 1L, "file" ]
+    # #   Add the file name to the table:
+    # xPeriod[, "file" ] <- x[ 1L, "file" ]
     
     #   Define the two years for the percentile calculation
     if( (prob < 0) | (prob > 1) ){
@@ -5046,56 +5145,74 @@ macroutilsFocusGWConc.data.frame <- function(
     
     #   Create a list of named values that will 
     #   contain all the percentiles calculated
-    percentilesOut <- data.frame( 
-        "CONC_PERC_XTH"       = get( CONC_PERC_XTH_name ), 
-        "CONC_TLAYER_XTH"     = get( CONC_TLAYER_XTH_name ), 
-        "tLayerAvgPerFrom"    = xPeriod[ order( xPeriod[, "CONC_TLAYER" ] ), ][ min( yearsXth ), "avgPer" ], 
-        "tLayerAvgPerTo"      = xPeriod[ order( xPeriod[, "CONC_TLAYER" ] ), ][ max( yearsXth ), "avgPer" ], 
-        "percAvgPerFrom"      = xPeriod[ order( xPeriod[, "CONC_PERC" ] ), ][ min( yearsXth ), "avgPer" ], 
-        "percAvgPerTo"        = xPeriod[ order( xPeriod[, "CONC_PERC" ] ), ][ max( yearsXth ), "avgPer" ], 
-        "avgIndexFrom"        = min( yearsXth ), 
-        "avgIndexTo"          = max( yearsXth ), 
-        "percentile"          = prob * 100, 
-        "method"              = method, 
-        "nbSimYrsUsed"        = nbYears, 
-        "nbYrsAvgPeriod"      = yearsAvg, 
-        "nbYrsWarmUp"         = nbYrsWarmUp, 
-        "F_SOL_LAYER_MAC_XTH" = get( F_SOL_LAYER_MAC_XTH_name ), 
-        "F_SOL_LAYER_MIC_XTH" = get( F_SOL_LAYER_MIC_XTH_name ), 
-        # "CONC_PERC_XTH2"     = CONC_PERC_XTH2, 
-        # "CONC_TLAYER_XTH2"    = CONC_TLAYER_XTH2, 
-        "file"              = x[ 1L, "file" ], 
-        stringsAsFactors = FALSE 
+    out <- list( 
+        "info_general" = data.frame(
+            "conc_percentile"   = prob * 100,         # percentile    -> conc_percentile
+            "rank_period1"      = min( yearsXth ),    # avgIndexFrom  -> rank_period1
+            "rank_period2"      = max( yearsXth ),    # avgIndexTo    -> rank_period2
+            "method"            = method,             # 
+            "nb_sim_yrs_used"   = nbYears,            # nbSimYrsUsed   -> nb_sim_yrs_used
+            "nb_yrs_per_period" = yearsAvg,           # nbYrsAvgPeriod -> nb_yrs_per_period
+            "nb_yrs_warmup"     = nbYrsWarmUp,        # nbYrsWarmUp    -> nb_yrs_warmup
+            "neg_conc_set_to_0" = negToZero,          # negToZero      -> neg_conc_set_to_0
+            # "file"              = x[ 1L, "file" ],    #  
+            stringsAsFactors    = FALSE ), 
+        
+        "info_period" = data.frame(
+            "period_index" = xPeriod[, "avgPer" ], 
+            "from_year"    = xPeriod[, "yearFrom" ], 
+            "to_year"      = xPeriod[, "yearTo" ]  
+        ),  
+        
+        "water_target_layer_by_period"  = data.frame(
+            "period_index" = xPeriod[, "avgPer" ], 
+            "mm_mic"       = xPeriod[, "acc_WOUT" ], 
+            "mm_mac"       = xPeriod[, "acc_WFLOWOUT" ], 
+            "mm_tot"       = xPeriod[, "acc_WFLOWTOT" ]
+        ),  
+        
+        "solute_target_layer_by_period" = data.frame(
+            "period_index"      = xPeriod[, "avgPer" ], 
+            "mg_per_m2_mic" = xPeriod[, "acc_SFLOW" ], 
+            "mg_per_m2_mac" = xPeriod[, "acc_SFLOWOUT" ], 
+            "mg_per_m2_tot" = xPeriod[, "acc_SFLOWTOT" ], 
+            "ug_per_L"      = xPeriod[, "CONC_TLAYER" ] 
+        ),  
+        
+        "water_perc_by_period"  = data.frame(
+            "period_index" = xPeriod[, "avgPer" ], 
+            "mm"           = xPeriod[, "TFLOWOUT" ]
+        ),  
+        
+        "solute_perc_by_period" = data.frame(
+            "period_index"  = xPeriod[, "avgPer" ], 
+            "mg_per_m2"     = xPeriod[, "TSOUT" ], 
+            "ug_per_L"      = xPeriod[, "CONC_PERC" ] 
+        ),  
+        
+        "conc_target_layer" = data.frame( 
+            "ug_per_L"      = get( CONC_TLAYER_XTH_name ), # CONC_PERC_XTH -> ug_per_L
+            "index_period1" = xPeriod[ order( xPeriod[, "CONC_TLAYER" ] ), ][ min( yearsXth ), "avgPer" ],    # tLayerAvgPerFrom -> 
+            "index_period2" = xPeriod[ order( xPeriod[, "CONC_TLAYER" ] ), ][ max( yearsXth ), "avgPer" ],    # tLayerAvgPerTo -> 
+            "f_solute_mac"  = get( F_SOL_LAYER_MAC_XTH_name ),      # F_SOL_LAYER_MAC_XTH -> 
+            "f_solute_mic"  = get( F_SOL_LAYER_MIC_XTH_name ) ),    # F_SOL_LAYER_MIC_XTH -> 
+            
+        "conc_perc" = data.frame( 
+            "ug_per_L"      = get( CONC_PERC_XTH_name ), # CONC_PERC_XTH -> ug_per_L
+            "index_period1" = xPeriod[ order( xPeriod[, "CONC_PERC" ] ), ][ min( yearsXth ), "avgPer" ],    # percAvgPerFrom -> 
+            "index_period2" = xPeriod[ order( xPeriod[, "CONC_PERC" ] ), ][ max( yearsXth ), "avgPer" ] )   # percAvgPerTo -> 
     )   
     
     if( method == "R" ){
-        percentilesOut[, "quantile_type" ] <- type
+        out[[ "info_general" ]][, "quantile_type" ] <- type
     }   
     
-    #   Replace temporary column names by final names:
-    colReplace <- list( 
-        c( "CONC_PERC_XTH",       CONC_PERC_XTH_name ), 
-        c( "CONC_TLAYER_XTH",     CONC_TLAYER_XTH_name ), 
-        c( "F_SOL_LAYER_MAC_XTH", F_SOL_LAYER_MAC_XTH_name ), 
-        c( "F_SOL_LAYER_MIC_XTH", F_SOL_LAYER_MIC_XTH_name )
-    )
-    
-    col_names <- colnames( percentilesOut )
-    
-    for( i in 1:length( colReplace ) ){
-        colnames( percentilesOut )[ 
-            col_names == colReplace[[ i ]][ 1L ] ] <- 
-            colReplace[[ i ]][ 2L ]
-    };  rm( i )
-    
-    
-    
-    #   Format the output and output attributes
-    out <- percentilesOut 
-    attr( x = out, which = "more" )        <- xPeriod
-    attr( x = out, which = "nbYrsWarmUp" ) <- nbYrsWarmUp
-    attr( x = out, which = "yearsXth" )    <- yearsXth
-    attr( x = out, which = "negToZero" )   <- negToZero
+    # #   Format the output and output attributes
+    # out <- percentilesOut 
+    # attr( x = out, which = "more" )        <- xPeriod
+    # attr( x = out, which = "nbYrsWarmUp" ) <- nbYrsWarmUp
+    # attr( x = out, which = "yearsXth" )    <- yearsXth
+    # attr( x = out, which = "negToZero" )   <- negToZero
     
     return( out ) 
 }   

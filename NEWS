@@ -6,7 +6,19 @@ CHANGES IN VERSION 2.1.0
     2018/10/31  
         macroInFocusGWConc() renamed macroutilsFocusGWConc()
         
-    
+        macroutilsFocusGWConc() now outputs a list of data.frame.
+        The new output format is documented.
+        
+        macroutilsFocusGWConc() now has an agrument "massunits" 
+        to account for the fact that MACRO results may be 
+        produced with different mass units (argument MASSUNITS 
+        in MACRO).
+        
+        In all relevant functions (macroReadBin; macroWriteBin; 
+        macroConvertBin; macroViewBin), 
+        the argument "file" has been renamed "f" to avoid 
+        clashes with the function file().
+        
 CHANGES IN VERSION 2.0.1
     
     2018/09/21  Added a new possible value for argument 
