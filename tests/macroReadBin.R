@@ -43,7 +43,7 @@ for( i in 1:length( f ) ){
     #   i <- 1L
     
     #   Import the bin files
-    binImport <- macroReadBin( file = file.path( binFolder, f[ i ] ) ) 
+    binImport <- macroReadBin( f = file.path( binFolder, f[ i ] ) ) 
     
     #   Read the corresponding RDS file
     rdsImport <- readRDS( file = file.path( rdsFolder, fRds[ i ] ) )
