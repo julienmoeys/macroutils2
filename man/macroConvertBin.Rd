@@ -4,15 +4,15 @@
 \alias{macroConvertBin}
 \title{Converts MACRO/SOIL binary files into CSV or TXT text files}
 \usage{
-macroConvertBin(file, gui = TRUE, sep = ",", dec = ".",
+macroConvertBin(f, gui = TRUE, sep = ",", dec = ".",
   fileOut = NULL, writeArgs = list(row.names = FALSE),
   overwrite = FALSE, ...)
 }
 \arguments{
-\item{file}{Vector of character strings or a single \code{\link{connection}}
+\item{f}{Vector of character strings or a single \code{\link{connection}}
 to a binary file. If a vector character strings, it should be the name(s) of
 the binary file(s) which the data are to be read from. The path of the
-file(s) may be provided as well, if file(s) is (are) not in the working
+file(s) may be provided as well, if the file(s) is (are) not in the working
 directory.}
 
 \item{gui}{Single logical. Set to \code{TRUE} if you want to choose only some

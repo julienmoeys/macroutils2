@@ -4,13 +4,13 @@
 \alias{macroViewBin}
 \title{Reads a MACRO/SOIL binary file and view it as a table.}
 \usage{
-macroViewBin(file, ...)
+macroViewBin(f, ...)
 }
 \arguments{
-\item{file}{Single character strings or a single \code{\link{connection}} to
+\item{f}{Single character strings or a single \code{\link{connection}} to
 a binary file. If a vector character strings, it should be the name of the
 binary file which the data are to be read from. The path of the file may be
-provided as well, if file is not in the working directory.}
+provided as well, if \code{f} is not in the working directory.}
 
 \item{\dots}{More arguments passed to \code{\link[macroutils2:macroReadBin-methods]{macroReadBin}}.}
 }

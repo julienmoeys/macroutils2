@@ -14,7 +14,7 @@ names. The value of the parameters named here will be (silently) returned.
 \item If \code{par} is a list following the format \code{tag = value}, where
 \code{tag} is the name of the parameter to be changed, and \code{value} is
 its new value.  Such a list is returned by \code{muPar()}. Notice that
-parameters can also be set indivudually, using the options listed below. }}
+parameters can also be set individually, using the options listed below. }}
 
 \item{reset}{Single logical. If TRUE, all the parameters will be set to their
 default value. Values are reset before any change to the parameter values, as
@@ -43,7 +43,7 @@ Returns a partial or complete list of (actual) parameter values, as a
 }
 \description{
 Get or set default parameters for the package. Notice changes done to the
- parameter values are reset everytime the R session is closed and the package
+ parameter values are reset every time the R session is closed and the package
  is reloaded.
 }
 \details{

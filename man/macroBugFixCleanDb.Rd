@@ -4,14 +4,14 @@
 \alias{macroBugFixCleanDb}
 \title{Clean-up MACRO 5.2 parameter databases. Fixes 4 known bugs (orphan, incomplete or unnecessary values)}
 \usage{
-macroBugFixCleanDb(file, paranoia = TRUE, ...)
+macroBugFixCleanDb(f, paranoia = TRUE, ...)
 }
 \arguments{
-\item{file}{Vector of character strings or a single \code{\link{connection}}
+\item{f}{Vector of character strings or a single \code{\link{connection}}
 to a MACRO GUI MS Access parameter database. If a vector of 
 character strings, it should be the name(s) of
 the Access database(s) containing MACRO parameters. The path 
-of the file(s) may be provided as well, if file(s) 
+of the file(s) may be provided as well, if the file(s) 
 is (are) not in the working directory.}
 
 \item{paranoia}{Single logical value. If \code{TRUE}, the user is asked 

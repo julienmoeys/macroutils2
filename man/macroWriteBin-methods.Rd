@@ -12,11 +12,11 @@ macroWriteBin(x, ...)
 
 \method{macroWriteBin}{macroTimeSeries}(x, ...)
 
-\method{macroWriteBin}{macroTimeSeriesList}(x, file, ...)
+\method{macroWriteBin}{macroTimeSeriesList}(x, f, ...)
 
-\method{macroWriteBin}{list}(x, ...)
+\method{macroWriteBin}{list}(x, f, ...)
 
-\method{macroWriteBin}{data.frame}(x, file, header = TRUE,
+\method{macroWriteBin}{data.frame}(x, f, header = TRUE,
   dateMethod = 1L, tz = "GMT", ...)
 }
 \arguments{
@@ -29,9 +29,9 @@ Januray of year 0001 at 00:00. Missing values are not allowed.}
 
 \item{\dots}{Additional options passed to \code{\link[base:readBin]{writeBin}}}
 
-\item{file}{Single character string or connection to a binary file. If a
+\item{f}{Single character string or connection to a binary file. If a
 character string, it should be the name of the binary file which the data are
-to be written from. The path of the file may be provided as well, if file is
+to be written from. The path of the file may be provided as well, if \code{f} is
 not in the working directory.}
 
 \item{header}{If code{TRUE}, the column header is written in the bin-file.}
@@ -41,7 +41,7 @@ not in the working directory.}
 \item{tz}{See help page for \code{\link[macroutils2:macroReadBin-methods]{macroReadBin}}.}
 }
 \description{
-Write bin file for the SOIL and MACRO models. Origial code by 
+Write bin file for the SOIL and MACRO models. Original code by 
  Kristian Persson. R code vectorisation by Julien Moeys.
 }
 \examples{
@@ -60,7 +60,7 @@ library( "macroutils2" )
     package = "macroutils2", mustWork = TRUE ) )
 
 #   Read the file
-tmp1 <- macroReadBin( file = filenm, rmRunID = FALSE ) 
+tmp1 <- macroReadBin( f = filenm, rmRunID = FALSE ) 
 
 
 # 1.2. Generate a dummy temporary file where the table will be 
@@ -73,7 +73,7 @@ tmp1 <- macroReadBin( file = filenm, rmRunID = FALSE )
 
 #   NB: This table is NOT a standard SOIL or MACRO input file!
 
-macroWriteBin( file = filenm, x = tmp1 ) 
+macroWriteBin( f = filenm, x = tmp1 ) 
 
 #   NB: When writing the bin file, time zones are ignored!
 
@@ -81,7 +81,7 @@ macroWriteBin( file = filenm, x = tmp1 )
 
 # 1.4. Read that file again and check that it is the same:
 
-tmp1.b <- macroReadBin( file = filenm, rmRunID = FALSE ) 
+tmp1.b <- macroReadBin( f = filenm, rmRunID = FALSE ) 
 
 # Maximum difference (small numerical differences)
 unlist( lapply(

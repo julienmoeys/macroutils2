@@ -5,19 +5,18 @@
 \alias{macroReadBin.character}
 \title{Read bin file from the Soil and MACRO models.}
 \usage{
-macroReadBin(file, ...)
+macroReadBin(f, ...)
 
-\method{macroReadBin}{character}(file, header = TRUE,
-  rmSuffixes = TRUE, trimLength = integer(), rmNonAlphaNum = TRUE,
-  rmSpaces = TRUE, rmRunID = TRUE, dateMethod = 1L, tz = "GMT",
-  ...)
+\method{macroReadBin}{character}(f, header = TRUE, rmSuffixes = TRUE,
+  trimLength = integer(), rmNonAlphaNum = TRUE, rmSpaces = TRUE,
+  rmRunID = TRUE, dateMethod = 1L, tz = "GMT", ...)
 }
 \arguments{
-\item{file}{Vector of character strings or a single \code{\link{connection}}
+\item{f}{Vector of character strings or a single \code{\link{connection}}
 to a binary file. If a vector character strings, it should be the name(s) of
 the binary file(s) which the data are to be read from. The path of the
-file(s) may be provided as well, if file(s) is (are) not in the working
-directory.}
+file(s) may be provided as well, if the file(s) is (are) 
+not in the working directory.}
 
 \item{\dots}{Additional options passed to specific 
 methods and to \code{\link[base]{readBin}}}
@@ -69,7 +68,7 @@ current time zone, and "GMT" is UTC".}
 }
 \value{
 Returns a \code{data.frame} with the content of the bin file. 
- If \code{length(file) > 1}, then a \code{list} of \code{data.frame} 
+ If \code{length(f) > 1}, then a \code{list} of \code{data.frame} 
  is returned instead. The \code{Date} column in the bin file is 
  converted from "Julian Date" into \code{\link[base:DateTimeClasses]{POSIXct}} 
  date format.
@@ -77,7 +76,7 @@ Returns a \code{data.frame} with the content of the bin file.
 \description{
 Read bin file from the Soil and MACRO models, including 
  MACRO intermediate-files for metabolite. Adapted by 
- Kristian Perssonfrom an "anonymous" SLU origial code . 
+ Kristian Persson from an "anonymous" SLU original code . 
  R code vectorisation by Julien Moeys.
 }
 \details{
@@ -98,17 +97,17 @@ library( "macroutils2" )
 
 #   Read the file - Generic method for reading column names 
 #   (result not always 100 percent clean)
-tmp1 <- macroReadBin( file = filenm ) 
+tmp1 <- macroReadBin( f = filenm ) 
 
 #   Read the file - Trim the column names to a known length 
 #   and do not perform any further column name cleaning.
 #   Optimal length depend on the type of bin-file.
-tmp2 <- macroReadBin( file = filenm, trimLength = 52L, 
+tmp2 <- macroReadBin( f = filenm, trimLength = 52L, 
     rmSuffixes = FALSE, rmNonAlphaNum = FALSE, 
     rmSpaces = FALSE, rmRunID = FALSE ) 
 
 #   Read the file - No column names cleaning
-tmp3 <- macroReadBin( file = filenm, rmSuffixes = FALSE, 
+tmp3 <- macroReadBin( f = filenm, rmSuffixes = FALSE, 
     rmNonAlphaNum = FALSE, rmSpaces = FALSE, 
     rmRunID = FALSE ) 
 
@@ -135,10 +134,10 @@ rm( filenm, tmp1, tmp2, tmp3 )
 #   Note: this file has been shortened to only 1 year of data    
 
 #   Read the file
-tmp1 <- macroReadBin( file = filenm ) 
+tmp1 <- macroReadBin( f = filenm ) 
 
 #   Using different settings
-tmp3 <- macroReadBin( file = filenm, rmNonAlphaNum = FALSE, 
+tmp3 <- macroReadBin( f = filenm, rmNonAlphaNum = FALSE, 
     rmSpaces = FALSE, rmRunID = FALSE ) 
 
 colnames( tmp1 ) # Some column names are not fully cleaned

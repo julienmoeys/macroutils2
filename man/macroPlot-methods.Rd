@@ -2,7 +2,6 @@
 % Please edit documentation in R/macroutils2.r
 \name{macroPlot}
 \alias{macroPlot}
-\alias{macroPlotBin}
 \alias{macroPlot.macroTimeSeries}
 \alias{macroPlot.macroTimeSeriesList}
 \alias{macroPlot.data.frame}
@@ -10,8 +9,6 @@
 \title{Plot time series from SOIL or MACRO simulation data (input or output).}
 \usage{
 macroPlot(x, ...)
-
-macroPlotBin(x, ...)
 
 \method{macroPlot}{macroTimeSeries}(x, ...)
 
@@ -121,9 +118,9 @@ library( "macroutils2" )
 ) )
 
 #   Read these 2 files
-out1  <- macroReadBin( file = filenm[ 1 ] ) 
+out1  <- macroReadBin( f = filenm[ 1 ] ) 
 
-out2 <- macroReadBin( file = filenm[ 2 ] ) 
+out2 <- macroReadBin( f = filenm[ 2 ] ) 
 
 #   Inspect the data:
 head( out1 ); dim( out1 ) 

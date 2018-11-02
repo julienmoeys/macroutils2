@@ -16,7 +16,7 @@ interval (defined in 'by'). The column 'dateCol' must be in POSIXct format.}
 selected and aggregated. 'dateCol' does not need to be specified here, but
 can be included.}
 
-\item{by}{A charcater string representing a POSIXct format (see
+\item{by}{A character string representing a POSIXct format (see
 ?format.POSIXct). "\%Y-\%m-\%d" (the default) will aggregate the data by days
 and "\%Y-\%m-\%d \%H", "\%Y-\%W", "\%Y-\%m" will aggregate the data by hour,
 week of the year or month, respectively. Other combinations are possible.}
@@ -28,14 +28,14 @@ would be 'function(x)quantile(x,probs=.75)'.  The same function is applied
 for all columns, so consider applying different macroAggregateBin() on different
 data types if needed.}
 
-\item{dateCol}{Name of the column cotaining the POSIXct date values. Default
+\item{dateCol}{Name of the column containing the POSIXct date values. Default
 is 'Date'.}
 }
 \value{
 Returns a data.frame with the values in columns aggregated by 'by'
  with the function 'FUN'. Notice that the format of 'dateCol' is then
  "character", and not any more POSIXct (because no uniform date format are
- possible for exporying back the dates).
+ possible for exporting back the dates).
 }
 \description{
 Aggregate simulation results by some date subsets, using various functions.
@@ -58,7 +58,7 @@ library( "macroutils2" )
     package = "macroutils2", mustWork = TRUE ) ) 
 
 #   Read the binary file
-tmp1 <- macroReadBin( file = filenm ) 
+tmp1 <- macroReadBin( f = filenm ) 
 
 #   Inspect the table
 colnames( tmp1 ) 
