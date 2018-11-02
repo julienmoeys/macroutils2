@@ -2400,7 +2400,7 @@ macroWriteBin.data.frame <- function(
 #'  Invisibly returns 'x', or the content of the files selected.
 #'
 #'
-#'@example inst/examples/macroPlotBin-example.r
+#'@example inst/examples/macroPlot-example.r
 #'
 #'@rdname macroPlot-methods
 #'
