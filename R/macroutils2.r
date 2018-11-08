@@ -5014,9 +5014,13 @@ macroutilsFocusGWConc.data.frame <- function(
         xPeriod[, "acc_SFLOW" ] / 
         (xPeriod[, "acc_SFLOW" ] + xPeriod[, "acc_SFLOWOUT" ]) 
     
+    xPeriod[ (xPeriod[, "acc_SFLOW" ] + xPeriod[, "acc_SFLOWOUT" ]) == 0, "F_SOL_LAYER_MIC" ] <- 0 
+    
     xPeriod[, "F_SOL_LAYER_MAC" ] <- 
         xPeriod[, "acc_SFLOWOUT" ] / 
         (xPeriod[, "acc_SFLOW" ] + xPeriod[, "acc_SFLOWOUT" ]) 
+    
+    xPeriod[ (xPeriod[, "acc_SFLOW" ] + xPeriod[, "acc_SFLOWOUT" ]) == 0, "F_SOL_LAYER_MAC" ] <- 0 
     
     # #   Add the file name to the table:
     # xPeriod[, "file" ] <- x[ 1L, "file" ]
