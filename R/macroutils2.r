@@ -4536,6 +4536,11 @@ macroBugFixCleanDb <- function(
 #'          averaged solute concentrations in the target 
 #'          layer, where X is equal to \code{conc\_percentile} 
 #'          (See above).}
+#'        \item{"ug\_per\_L\_rnd"}{Same as above, except that 
+#'          the concentration is rounded to 2 digits after the 
+#'          decimal mark, in scientific mode, in an attempt to 
+#'          obtain the same value as MACRO In FOCUS graphical 
+#'          interface.}
 #'        \item{"index\_period1"}{Index of the first simulation 
 #'          period used to calculate the Xth percentile of 
 #'          the period-averaged solute concentrations. 
@@ -4565,6 +4570,11 @@ macroBugFixCleanDb <- function(
 #'          averaged solute concentrations percolated at the 
 #'          bottom boundary of the soil profile, where X is 
 #'          equal to \code{conc\_percentile} (See above).}
+#'        \item{"ug\_per\_L\_rnd"}{Same as above, except that 
+#'          the concentration is rounded to 2 digits after the 
+#'          decimal mark, in scientific mode, in an attempt to 
+#'          obtain the same value as MACRO In FOCUS graphical 
+#'          interface.}
 #'        \item{"index\_period1"}{Index of the first simulation 
 #'          period used to calculate the Xth percentile of 
 #'          the period-averaged solute concentrations. 
@@ -5179,14 +5189,16 @@ macroutilsFocusGWConc.data.frame <- function(
         ),  
         
         "conc_target_layer" = data.frame( 
-            "ug_per_L"      = get( CONC_TLAYER_XTH_name ), # CONC_PERC_XTH -> ug_per_L
-            "index_period1" = xPeriod[ order( xPeriod[, "CONC_TLAYER" ] ), ][ min( yearsXth ), "avgPer" ],    # tLayerAvgPerFrom -> 
-            "index_period2" = xPeriod[ order( xPeriod[, "CONC_TLAYER" ] ), ][ max( yearsXth ), "avgPer" ],    # tLayerAvgPerTo -> 
-            "f_solute_mac"  = get( F_SOL_LAYER_MAC_XTH_name ),      # F_SOL_LAYER_MAC_XTH -> 
-            "f_solute_mic"  = get( F_SOL_LAYER_MIC_XTH_name ) ),    # F_SOL_LAYER_MIC_XTH -> 
+            "ug_per_L"       = get( CONC_TLAYER_XTH_name ), # CONC_PERC_XTH -> ug_per_L
+            "ug_per_L_rnd"   = as.numeric( formatC(get( CONC_TLAYER_XTH_name ),format="e",digits=2L) ), # CONC_PERC_XTH -> ug_per_L
+            "index_period1"  = xPeriod[ order( xPeriod[, "CONC_TLAYER" ] ), ][ min( yearsXth ), "avgPer" ],    # tLayerAvgPerFrom -> 
+            "index_period2"  = xPeriod[ order( xPeriod[, "CONC_TLAYER" ] ), ][ max( yearsXth ), "avgPer" ],    # tLayerAvgPerTo -> 
+            "f_solute_mac"   = get( F_SOL_LAYER_MAC_XTH_name ),      # F_SOL_LAYER_MAC_XTH -> 
+            "f_solute_mic"   = get( F_SOL_LAYER_MIC_XTH_name ) ),    # F_SOL_LAYER_MIC_XTH -> 
             
         "conc_perc" = data.frame( 
             "ug_per_L"      = get( CONC_PERC_XTH_name ), # CONC_PERC_XTH -> ug_per_L
+            "ug_per_L_rnd"  = as.numeric( formatC(get( CONC_PERC_XTH_name ),format="e",digits=2L) ), # CONC_PERC_XTH -> ug_per_L
             "index_period1" = xPeriod[ order( xPeriod[, "CONC_PERC" ] ), ][ min( yearsXth ), "avgPer" ],    # percAvgPerFrom -> 
             "index_period2" = xPeriod[ order( xPeriod[, "CONC_PERC" ] ), ][ max( yearsXth ), "avgPer" ] )   # percAvgPerTo -> 
     )   
