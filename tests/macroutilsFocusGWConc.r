@@ -2,7 +2,7 @@
 library( "macroutils2" ) 
 
 #   Maximum differences acceptable in conc
-maxConcDif <- c( "raw" = 1e-04, "gui" = 0.05 ) 
+maxConcDif <- c( "raw" = 1e-04, "gui" = 1e-08 ) 
 maxPercDif <- 1e-03 # 1/1000th of a mm of water
 
 # +--------------------------------------------------------+
@@ -84,11 +84,11 @@ for( i in 1:length( examples ) ){
     #   Compare the two side by side
     cbind( CONC_TLAYER, conc[, "Av_FluxConc_at_reporting_depth" ] )
 
-    #   Calculate the absolute differences again
-    concDiffs <- conc[, "Av_FluxConc_at_reporting_depth" ] - 
-        CONC_TLAYER
-
-    concDiffs <- abs( concDiffs ) 
+    # #   Calculate the absolute differences again
+    # concDiffs <- conc[, "Av_FluxConc_at_reporting_depth" ] - 
+        # CONC_TLAYER
+    
+    # concDiffs <- abs( concDiffs ) 
 
     #   Test that the differences are not too big
     if( any( concDiffs > maxConcDif[ "raw" ] ) ){
@@ -100,23 +100,23 @@ for( i in 1:length( examples ) ){
         ) ) 
     }   
     
-
-
+    
+    
     # Compare PEC between MACRO In FOCUS version control and 
     # macroutils2
     # +--------------------------+
-
-    if( abs(examples[[ i ]][[ "FOCUS_PEC" ]] - res[["conc_target_layer"]][ 1L, "ug_per_L" ]) > maxConcDif[ "gui" ] ){
+    
+    if( abs(examples[[ i ]][[ "FOCUS_PEC" ]] - res[["conc_target_layer"]][ 1L, "ug_per_L_rnd" ]) > maxConcDif[ "gui" ] ){
         stop( sprintf( 
             "%s: The diff in PEC is bigger than the max acceptable diff: %s > %s (PECgw: MACRO In FOCUS %s; macroutils2 %s).", 
             names( examples )[ i ], 
-            abs(examples[[ i ]][[ "FOCUS_PEC" ]] - res[["conc_target_layer"]][ 1L, "ug_per_L" ]), 
+            abs(examples[[ i ]][[ "FOCUS_PEC" ]] - res[["conc_target_layer"]][ 1L, "ug_per_L_rnd" ]), 
             maxConcDif[ "gui" ], 
             examples[[ i ]][[ "FOCUS_PEC" ]], 
-            res[["conc_target_layer"]][ 1L, "ug_per_L" ]
+            res[["conc_target_layer"]][ 1L, "ug_per_L_rnd" ]
         ) ) 
     }   
-
+    
     #   Periods selected (MACRO In FOCUS version control)
     # mu2_periods <- res[, c( "tLayerAvgPerFrom", "tLayerAvgPerTo" )]
     mu2_periods <- res[["conc_target_layer"]][ 1L, c( "index_period1", "index_period2" ) ]
