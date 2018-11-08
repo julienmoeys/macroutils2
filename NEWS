@@ -1,6 +1,17 @@
 
     R package: macroutils2
 
+CHANGES IN VERSION 2.1.1
+    
+    2018/11/08  In macroutilsFocusGWConc():
+        *   Fixed NaN values in the output of the fraction of 
+            solute in the micropores or macropores when 
+            the total solute flow was 0.
+        *   Now also exports concentrations rounded like 
+            in MACRO In FOCUS, in an attempt to get comparable 
+            results (rounded to 2 digits after the decimal mark
+            when displayed in scientific mode)
+        
 CHANGES IN VERSION 2.1.0
     
     2018/10/31  
