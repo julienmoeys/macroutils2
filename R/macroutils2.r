@@ -4580,7 +4580,7 @@ macroBugFixCleanDb <- function(
 #'          the period-averaged solute concentrations. 
 #'          Corresponds to the column \code{period\_index} in 
 #'          the tables above.}
-#'        \item{"index\_period2"}{Index of the second simulation 
+#'        \item{"index\_period2"}{{Index of the second simulation 
 #'          period used to calculate the Xth percentile of 
 #'          the period-averaged solute concentrations. 
 #'          Corresponds to the column \code{period\_index} in 
