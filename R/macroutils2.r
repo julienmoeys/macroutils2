@@ -4880,10 +4880,10 @@ macroutilsFocusGWConc.data.frame <- function(
     # message( sprintf( "nbYears: %s",nbYears ) )
     
     if( nbYears == 0L ){
-        stop( 
+        stop( sprintf( 
             "No simulation-year left after removing warmup years (total nb years: %s; argument 'nbYrsWarmUp': %s)", 
             years0, nbYrsWarmUp
-        )
+        ) ) 
     }   
     
     #   Determine the appropriate number of years on which 
