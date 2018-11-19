@@ -1,6 +1,13 @@
 
     R package: macroutils2
 
+CHANGES IN VERSION 2.2.0
+    
+    2018/11/19  All example/test binary files were updated.
+        FOCUS dummy substance GW-C was replaced by GW-D with 
+        application every year, every other year or every third 
+        year, so these configurations are tested too.
+    
 CHANGES IN VERSION 2.1.2
     
     2018/11/17  Small bug fix in macroutilsFocusGWConc, 
