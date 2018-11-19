@@ -7,7 +7,7 @@ library( "macroutils2" )
 
 #   Format the path to a test binary file
 ( filenm <- system.file( 
-    "bintest/output_chat_winCer_GW-C_1kgHa_d298.bin", 
+    "bintest/chat_winCer_GW-D_1kgHa_d298_annual_output.bin", 
     package = "macroutils2", mustWork = TRUE ) ) 
 
 #   Read the binary file

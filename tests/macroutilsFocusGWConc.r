@@ -5,31 +5,41 @@ library( "macroutils2" )
 maxConcDif <- c( "raw" = 1e-04, "gui" = 1e-08 ) 
 maxPercDif <- 1e-03 # 1/1000th of a mm of water
 
-# +--------------------------------------------------------+
-#   Example 1
+
+
+#   Examples
 #   
-#   MACRO In FOCUS Chateaudun scenario, winter cereals, 
-#   dummy substance GW-C applied at 1kg/ha on julian day 298 
-#   (1 day before emergence). The same scenario is included 
-#   in MACRO In FOCUS version control.
-# +--------------------------------------------------------+
+#   MACRO In FOCUS Chateaudun scenario, winter cereals or 
+#   potatoes, dummy substance GW-D applied at 1kg/ha on 
+#   julian day 298 or 119, 1 day before emergence, 
+#   applications every year, every other year or every 
+#   third year.
+#   
+#   The same scenario are included in MACRO In FOCUS 
+#   version control.
 
 examples <- list(
-    "example1" = list(
-        "bin" = "bintest/output_chat_winCer_GW-C_1kgHa_d298.bin", 
-        "conc_dat" = "bintest/conc_output_chat_winCer_GW-C_1kgHa_d298.dat", 
-        "perc_dat" = "bintest/perc_output_chat_winCer_GW-C_1kgHa_d298.dat", 
-        "FOCUS_PEC" = 1.45E-05, 
-        # "FOCUS_perc" = c( 256.42, 237.04 ), 
-        "FOCUS_periods" = c( 7, 8 ) ),  
-    "example2" = list(
-        "bin" = "bintest/output_chat_winCer_Met-GW-C_1kgHa_d298.bin", 
-        "conc_dat" = "bintest/conc_output_chat_winCer_Met-GW-C_1kgHa_d298.dat", 
-        "perc_dat" = "bintest/perc_output_chat_winCer_Met-GW-C_1kgHa_d298.dat", 
-        "FOCUS_PEC" = 23.3, 
-        # "FOCUS_perc" = c( 237.04, 307.55 ),         
-        "FOCUS_periods" = c( 8, 10 ) )
-)   
+    "gw_D_annual" = list(
+        "bin"      = "bintest/chat_winCer_GW-D_1kgHa_d298_annual_output.bin", 
+        "conc_dat" = "bintest/chat_winCer_GW-D_1kgHa_d298_annual_conc.dat", 
+        "perc_dat" = "bintest/chat_winCer_GW-D_1kgHa_d298_annual_perc.dat", 
+        "warm_up_index" = 1:6, 
+        "FOCUS_PEC" = 0.154, 
+        "FOCUS_periods" = c( 7, 10 ) ),  
+    "gw_D_biennial" = list(
+        "bin"      = "bintest/chat_pot_GW-D_1kgHa_d119_biennial_output.bin", 
+        "conc_dat" = "bintest/chat_pot_GW-D_1kgHa_d119_biennial_conc.dat", 
+        "perc_dat" = "bintest/chat_pot_GW-D_1kgHa_d119_biennial_perc.dat", 
+        "warm_up_index" = 1:3, 
+        "FOCUS_PEC" = 0.0254, 
+        "FOCUS_periods" = c( 19, 2 ) ), 
+    "gw_D_triennial" = list(
+            "bin"      = "bintest/chat_pot_GW-D_1kgHa_d119_triennial_output.bin", 
+            "conc_dat" = "bintest/chat_pot_GW-D_1kgHa_d119_triennial_conc.dat", 
+            "perc_dat" = "bintest/chat_pot_GW-D_1kgHa_d119_triennial_perc.dat", 
+            "warm_up_index" = 1:2, 
+            "FOCUS_PEC" = 0.0174, 
+            "FOCUS_periods" = c( 2, 13 ) ) )   
 
 for( i in 1:length( examples ) ){
     #   i <- 2L

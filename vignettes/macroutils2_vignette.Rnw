@@ -360,12 +360,12 @@ to alter them accidentally:
 
 <<echo=TRUE,eval=TRUE>>= 
 ## File name, without the library path
-filenm <- c( "output_chat_winCer_GW-C_1kgHa_d298.bin", 
-    "output_chat_winCer_Met-GW-C_1kgHa_d298.bin" ) 
-## 
+filenm <- c( "chat_winCer_GW-D_1kgHa_d298_annual_output.bin", 
+    "chat_pot_GW-D_1kgHa_d119_biennial_output.bin" ) 
+
 ## Find the library path
 path <- system.file( "bintest", package = "macroutils2" ) 
-## 
+
 ## Copy these files in the working directory 
 file.copy( 
     from        = file.path( path, filenm ), 
@@ -433,11 +433,11 @@ It is possible to convert several files at a time with this function.
 % +~~~~~~~~~~~~+
 \subsubsection{R commands (non-interactive mode)} 
 
-If you want to convert \texttt{"output\_chat\_winCer\_GW-C\_1kgHa\_d298.bin"} using R commands, type:
+If you want to convert \texttt{"chat\_winCer\_GW-D\_1kgHa\_d298\_annual\_output.bin"} using R commands, type:
 
 <<echo=TRUE,eval=FALSE>>= 
 macroConvertBin( 
-    f   = "output_chat_winCer_GW-C_1kgHa_d298.bin", 
+    f   = "chat_winCer_GW-D_1kgHa_d298_annual_output.bin", 
     gui = FALSE ) 
 @ 
 
@@ -446,11 +446,11 @@ You can customise the file format, for example:
 
 <<echo=TRUE,eval=FALSE>>= 
 macroConvertBin( 
-    f       = "output_chat_winCer_GW-C_1kgHa_d298.bin", 
+    f       = "chat_winCer_GW-D_1kgHa_d298_annual_output.bin", 
     gui     = FALSE,            # No Graphical Interface 
     sep     = ";",              # Field separator 
     dec     = ".",              # Decimal mark 
-    fileOut = "output_chat_winCer_GW-C_1kgHa_d298_2.CSV" )   
+    fileOut = "chat_winCer_GW-D_1kgHa_d298_annual_output_2.csv" )   
 @ 
 
 
@@ -682,7 +682,7 @@ macroViewBin()
 You may also type:
 
 <<echo=TRUE,eval=FALSE>>= 
-macroViewBin( "output_chat_winCer_GW-C_1kgHa_d298.bin" ) 
+macroViewBin( "chat_winCer_GW-D_1kgHa_d298_annual_output.bin" ) 
 @ 
 
 

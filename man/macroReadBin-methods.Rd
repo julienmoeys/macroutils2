@@ -128,7 +128,7 @@ rm( filenm, tmp1, tmp2, tmp3 )
 
 #   Path to the file to be read
 ( filenm <- system.file( 
-    "bintest/int-file_chat_winCer_GW-C_1kgHa_d298_y1926.bin", 
+    "bintest/chat_winCer_GW-C_1kgHa_d298_y1926_int-file.bin", 
     package = "macroutils2", mustWork = TRUE ) ) 
 
 #   Note: this file has been shortened to only 1 year of data    

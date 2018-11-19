@@ -111,8 +111,8 @@ library( "macroutils2" )
 
 #   Path to the file to be read
 ( filenm <- system.file( c( 
-    "bintest/output_chat_winCer_GW-C_1kgHa_d298.bin", 
-    "bintest/output_chat_winCer_Met-GW-C_1kgHa_d298.bin" ), 
+    "bintest/chat_winCer_GW-D_1kgHa_d298_annual_output.bin", 
+    "bintest/chat_pot_GW-D_1kgHa_d119_biennial_output.bin" ), 
     package  = "macroutils2", 
     mustWork = TRUE 
 ) )
@@ -126,6 +126,8 @@ out2 <- macroReadBin( f = filenm[ 2 ] )
 head( out1 ); dim( out1 ) 
 head( out2 ); dim( out2 ) 
 
+#   Subset the 2nd file so the time series match
+out2 <- out2[ out2[,"Date"] %in% out1[,"Date"], ]
 
 
 # ====== Plot the data ======
