@@ -107,7 +107,7 @@ library( "macroutils2" )
 
 
 
-# ====== Example 1: SOIL model input file ======
+# ====== Example 1: MACRO model input file ======
 
 #   Path to the file to be read
 ( filenm <- system.file( c( 
@@ -126,8 +126,9 @@ out2 <- macroReadBin( f = filenm[ 2 ] )
 head( out1 ); dim( out1 ) 
 head( out2 ); dim( out2 ) 
 
-#   Subset the 2nd file so the time series match
-out2 <- out2[ out2[,"Date"] %in% out1[,"Date"], ]
+
+#   Shorten the 2nd file to the same length as the 1st
+out2 <- out2[ out2[, "Date" ] \%in\% out1[, "Date" ], ]
 
 
 # ====== Plot the data ======
