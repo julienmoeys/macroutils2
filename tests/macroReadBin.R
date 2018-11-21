@@ -43,7 +43,12 @@ for( i in 1:length( f ) ){
     #   i <- 1L
     
     #   Import the bin files
-    binImport <- macroReadBin( f = file.path( binFolder, f[ i ] ) ) 
+    binImport <- macroReadBin( 
+        f = file.path( binFolder, f[ i ] ), 
+        rmSuffixes    = TRUE,
+        rmNonAlphaNum = FALSE, 
+        rmSpaces      = FALSE,
+        rmRunID       = FALSE ) 
     
     #   Read the corresponding RDS file
     rdsImport <- readRDS( file = file.path( rdsFolder, fRds[ i ] ) )
@@ -60,6 +65,9 @@ for( i in 1:length( f ) ){
     
     dim( binImport ) 
     dim( rdsImport ) 
+    
+    colnames( binImport ) 
+    colnames( rdsImport ) 
     
     #   Calculate the difference between the two tables
     diffTable <- abs( binImport[, -1L, drop = FALSE ] - rdsImport[, -1L, drop = FALSE ] )
