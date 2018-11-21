@@ -69,7 +69,7 @@ for( i in 1:length( examples ) ){
     conc <- read.table( file = datConc, sep = "", header = TRUE )
 
     #   Eliminate warm-up
-    conc <- conc[ -c(1:6), ]
+    conc <- conc[ -examples[[ i ]][[ "warm_up_index" ]], ]
 
     #   Calculate the absolute differences
     # CONC_TLAYER <- attr( res, "more" )[, "CONC_TLAYER" ] 
