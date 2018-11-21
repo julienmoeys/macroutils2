@@ -1,1 +1,1 @@
-1416095  Small bug fix in macroutilsFocusGWConc
+2ca6fc4 Check after install rather than before (for easier debugging)
