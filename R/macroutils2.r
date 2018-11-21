@@ -5190,7 +5190,8 @@ macroutilsFocusGWConc.data.frame <- function(
         
         "conc_target_layer" = data.frame( 
             "ug_per_L"       = get( CONC_TLAYER_XTH_name ), # CONC_PERC_XTH -> ug_per_L
-            "ug_per_L_rnd"   = as.numeric( formatC(get( CONC_TLAYER_XTH_name ),format="e",digits=2L) ), # CONC_PERC_XTH -> ug_per_L
+            # "ug_per_L_rnd"   = as.numeric( formatC(get( CONC_TLAYER_XTH_name ),format="e",digits=2L) ), # CONC_PERC_XTH -> ug_per_L
+            "ug_per_L_rnd"   = signif( x = get( CONC_TLAYER_XTH_name ), digits = 3L ), # CONC_PERC_XTH -> ug_per_L
             "index_period1"  = xPeriod[ order( xPeriod[, "CONC_TLAYER" ] ), ][ min( yearsXth ), "avgPer" ],    # tLayerAvgPerFrom -> 
             "index_period2"  = xPeriod[ order( xPeriod[, "CONC_TLAYER" ] ), ][ max( yearsXth ), "avgPer" ],    # tLayerAvgPerTo -> 
             "f_solute_mac"   = get( F_SOL_LAYER_MAC_XTH_name ),      # F_SOL_LAYER_MAC_XTH -> 
@@ -5198,7 +5199,8 @@ macroutilsFocusGWConc.data.frame <- function(
             
         "conc_perc" = data.frame( 
             "ug_per_L"      = get( CONC_PERC_XTH_name ), # CONC_PERC_XTH -> ug_per_L
-            "ug_per_L_rnd"  = as.numeric( formatC(get( CONC_PERC_XTH_name ),format="e",digits=2L) ), # CONC_PERC_XTH -> ug_per_L
+            # "ug_per_L_rnd"  = as.numeric( formatC(get( CONC_PERC_XTH_name ),format="e",digits=2L) ), # CONC_PERC_XTH -> ug_per_L
+            "ug_per_L_rnd"  = signif( get( CONC_PERC_XTH_name ), digits = 3L ),
             "index_period1" = xPeriod[ order( xPeriod[, "CONC_PERC" ] ), ][ min( yearsXth ), "avgPer" ],    # percAvgPerFrom -> 
             "index_period2" = xPeriod[ order( xPeriod[, "CONC_PERC" ] ), ][ max( yearsXth ), "avgPer" ] )   # percAvgPerTo -> 
     )   
