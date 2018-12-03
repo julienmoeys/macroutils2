@@ -1,25 +1,25 @@
 Package: macroutils2
 Version: 2.2.0
 Date: 2018-11-21
-Title: R Utility Functions for the MACRO and SOILNDB Models
 Author: Julien Moeys [aut, cre], Kristian Persson [aut]
-Authors@R: c( person( "Julien", "Moeys", role = c("aut", "cre"), email = "jules_m78-soiltexture@@yahooDOTfr" ), person( "Kristian", "Persson", role = "aut" ) )
+Authors@R: c( person( given = "Julien", family = "Moeys", role = c("aut", "cre"), email = "jules_m78-soiltexture@@yahooDOTfr" ), person( given = "Kristian", family = "Persson", role = "aut" ), person( "Centre for Chemical Pesticides (CKB), Swedish University of Agricultural Sciences (SLU)", role = "cph", comment = "Copyright 2010-2016" ) )
 Maintainer: Julien Moeys <jules_m78-soiltexture@yahoo.fr>
+Title: R Utility Functions for the MACRO and SOILNDB Models
+Description: Read, write, convert, display and plot the content of binary files from the models MACRO and SOILNDB. Miscellaneous utility functions related MACRO, such as bug-fixes. macroutils2 is the continuation of macroutils, but there is not full backward compatibility (some functions' argument were changed or renamed). macroutils2 can read both MACRO output files and MACRO "intermediate files" for metabolites.
 Depends: 
     R (>= 3.5.0),
     utils
 Suggests: 
     RODBC
-LazyLoad: yes
-ByteCompile: yes
-Description: Read, write, convert, display and plot the content of binary files from the models MACRO and SOILNDB. Miscellaneous utility functions related MACRO, such as bug-fixes. macroutils2 is the continuation of macroutils, but there is not full backward compatibility (some functions' argument were changed or renamed). macroutils2 can read both MACRO output files and MACRO "intermediate files" for metabolites.
-URL: https://github.com/julienmoeys/macroutils http://www.slu.se/soil/ http://www.slu.se/ckb/
-BugReports: https://github.com/julienmoeys/macroutils/issues
-License: MIT + file LICENSE
 Imports: 
     tcltk,
     graphics,
     grDevices,
     stats
+LazyLoad: yes
+ByteCompile: yes
+URL: https://github.com/julienmoeys/macroutils2 
+BugReports: https://github.com/julienmoeys/macroutils2/issues
+License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 6.1.0
