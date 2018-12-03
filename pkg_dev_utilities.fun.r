@@ -310,7 +310,7 @@ pdu_rcmdinstall <- function(
     
     
     
-    pdu_message( "--- Call R CMD check -----------------------------------\n" )
+    pdu_message( "--- Call R CMD INSTALL -----------------------------------\n" )
     #   Find latest tar.gz binary
     f <- list.files( path = buildDir, pattern = ".tar.gz" )
     f <- f[ grepl( pattern = pkgName, x = f, ignore.case = FALSE, 
@@ -496,3 +496,76 @@ pdu_rd2pdf <- function(
     return( out )
 }   
 
+
+
+pdu_copy_to_repos <- function(
+    pkgName, 
+    pkgDir, 
+    buildDir = NULL, 
+    local_repos
+){  
+    if( is.null( buildDir ) ){ buildDir <- pkgDir }
+    
+    desc <- utils::packageDescription(
+        pkg     = pkgName, 
+        lib.loc = pkgDir )  
+    
+    pkg_version <- desc[[ "Version" ]] 
+    
+    name_template <- sprintf( "%s_%s.%s", pkgName, pkg_version, 
+        "%s" ) 
+    
+    binaries <- sprintf( name_template, c( "tar.gz", "zip" ) )
+    
+    test_file_copy <- file.copy(
+        from = file.path( buildDir, binaries ), 
+        to   = file.path( local_repos, binaries ), 
+        overwrite = TRUE, copy.date = FALSE ) 
+    
+    if( !all( test_file_copy ) ){
+        stop( sprintf( 
+            "Could not copy file(s) %s from %s to %s", 
+            paste( binaries[ !test_file_copy ], collapse = " " ), 
+            buildDir, local_repos 
+        ) ) 
+    }else{
+        message( sprintf( 
+            "Copied file(s) %s to %s", 
+            paste( binaries, collapse = " and " ), 
+            local_repos 
+        ) ) 
+    }   
+    
+    #   Clean up old versions
+    files_in_local_repos <- list.files( 
+        path       = local_repos, 
+        pattern    = paste0( pkgName, "_" ), 
+        full.names = FALSE, 
+        recursive  = FALSE, 
+        no..       = TRUE ) 
+    
+    files_in_local_repos <- 
+        files_in_local_repos[ !(files_in_local_repos %in% binaries) ]
+    
+    if( length( files_in_local_repos ) > 0L ){
+        test_file_rm <- file.remove( file.path( local_repos, 
+            files_in_local_repos ) )
+        
+        if( !all( test_file_rm ) ){
+            stop( sprintf( 
+                "Could not remove file(s) %s in %s", 
+                paste( files_in_local_repos[ !test_file_rm ], 
+                    collapse = " " ), 
+                local_repos 
+            ) ) 
+        }else{
+            message( sprintf( 
+                "Removed file(s) %s in %s", 
+                paste( files_in_local_repos, collapse = " " ), 
+                local_repos 
+            ) ) 
+        }   
+    }   
+    
+    return( invisible( binaries ) )
+}   
