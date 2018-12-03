@@ -6,10 +6,18 @@
 
 rm(list=ls(all=TRUE)) 
 
-prjName  <- "macrounchained"
-pkgName  <- "macroutils2"
-pkgDir   <- file.path( Sys.getenv(x = "rPackagesDir" ), prjName )
+prjName  <- "macrounchained" 
+pkgName  <- "macroutils2" 
+pkgDir   <- Sys.getenv( x = "rPackagesDir", unset = NA_character_ ) 
+if( is.na( pkgDir ) ){ 
+    stop( "Variable 'rPackagesDir' not defined." ) 
+}else{ pkgDir <- file.path( pkgDir, prjName ) }
 buildDir <- file.path( pkgDir, pkgName, "_package_binaries" )
+local_repos <- Sys.getenv( x = "rPackagesLocalRepos", 
+    unset = NA_character_ ) 
+if( is.na( local_repos ) ){ 
+    stop( "Variable 'rPackagesLocalRepos' not defined." ) 
+}else{ local_repos <- file.path( local_repos, prjName ) }
 
 setwd( pkgDir )
 
@@ -105,3 +113,12 @@ pdu_build_vignette( RnwFile = "macroutils2_vignette.Rnw",
 
 pdu_rd2pdf( pkgName = pkgName, pkgDir = pkgDir, 
     buildDir = buildDir )
+
+
+
+# +--------------------------------------------------------+
+# | Copy source and zip binaries to local repos            |
+# +--------------------------------------------------------+
+
+pdu_copy_to_repos( pkgName = pkgName, pkgDir = pkgDir, 
+    buildDir = buildDir, local_repos = local_repos )
