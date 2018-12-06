@@ -5,6 +5,9 @@ library( "macroutils2" )
 #   mean)
 maxRelDiff <- 0.005 # 0.5%
 
+ignore <- c( "chat_pot_GW-D_1kgHa_d119_biennial_output.bin", 
+    "chat_pot_GW-D_1kgHa_d119_triennial_output.bin" )
+
 #   Folder in which the example bin files are stored
 binFolder <- system.file( "bintest", package = "macroutils2", 
     mustWork = TRUE ) 
@@ -17,6 +20,9 @@ f <- list.files( path = binFolder, full.names = FALSE )
 #   can't use it here, and use grepl instead)
 f <- f[ grepl( x = tolower( f ), pattern = ".bin", 
     fixed = TRUE ) ]
+
+#   Remove files that should be ignored
+f <- f[ !(f %in% ignore) ]
 
 #   Folder containing all the RDS-files that contain the 
 #   bin files as converted with MACRO 5.2 GUI
