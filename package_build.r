@@ -80,6 +80,7 @@ pdu_rcmdinstall( pkgName = pkgName, pkgDir = pkgDir,
 pdu_rcmdcheck( pkgName = pkgName, pkgDir = pkgDir, 
     buildDir = buildDir, noExamples = FALSE, 
     noTests = FALSE, noVignettes = FALSE )
+#   1 NOTE because of package size cannot be mitigated
 
 #   Remove .Rcheck folder
 pdu_rm_Rcheck( pkgName = pkgName, pkgDir = pkgDir, 
