@@ -98,9 +98,9 @@ pdu_detach( pkgName = pkgName )
 # # Source some utility functions (prefix: pdu_)
 # source( file.path( pkgName, "pkg_dev_utilities.fun.r" ) ) 
 
-pdu_build_vignette( RnwFile = "macroutils2_vignette.Rnw", 
-    pkgName = pkgName, pkgDir = pkgDir, buildDir = buildDir, 
-    pdf = TRUE, quiet = TRUE )   
+# pdu_build_vignette( RnwFile = "macroutils2_vignette.Rnw", 
+    # pkgName = pkgName, pkgDir = pkgDir, buildDir = buildDir, 
+    # pdf = TRUE, quiet = TRUE )   
 
 
 
