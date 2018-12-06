@@ -14,6 +14,12 @@ CHANGES IN VERSION 2.2.0
         i.e. with 3 significant figures rather than a number 
         of digits after the decimal mark.
         
+    2018/12/06  Removed non-essential tests (comparison between 
+        bin-files imported by macroutils2 and converted by 
+        MACRO 5.2, for biennial and triennial application 
+        intervals). This saves space in the binary-package and 
+        is covered by the test for annual application.
+        
 CHANGES IN VERSION 2.1.2
     
     2018/11/17  Small bug fix in macroutilsFocusGWConc, 
