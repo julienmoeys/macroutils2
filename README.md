@@ -12,7 +12,7 @@ packages [rmacrolite][] and [macrounchained][]
 
 `macroutils2` is derived from the R package [macroutils][], 
 written by the author while at the Center for Chemical Pesticides 
-(CKB), Swedish University of Agricultural Sciences (SLU). 
+([CKB][ckb]), Swedish University of Agricultural Sciences ([SLU][slu]). 
 Compared to `macroutils`, the package interface has been partly 
 refactored, and there is no backward compatibility between 
 `macroutils2` and `macroutils`. `macroutils2` provides new 
@@ -71,6 +71,8 @@ Installing the package from Windows binaries
 Windows binary-installer (a `.zip` file) and source tar of the 
 package (a `.tar.gz` file) can be downloaded from the following 
 address: https://rpackages.julienmoeys.info/macrounchained/.
+
+Choose the binary-installer for `macroutils2`.
 
 Save the file to a local folder on your computer.
 
