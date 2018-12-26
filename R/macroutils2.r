@@ -4409,6 +4409,17 @@ macroBugFixCleanDb <- function(
 #'  function), \code{2} is grams and \code{4} is kilograms. 
 #'  Corresponds to the parameter \code{MASSUNITS} in MACRO.
 #'
+#'@param output_lower_bound
+#'  Vector of two logical value, labelled \code{"water"} 
+#'  and \code{"solute"}. If \code{output_lower_bound["water"]} 
+#'  is \code{TRUE} (the default), output is returned for the 
+#'  water percolating at the lower boundary of the soil profile.
+#'  If \code{output_lower_bound["solute"]} is \code{TRUE} 
+#'  (not the default), output is returned for the solute 
+#'  passing through the lower boundary of the soil profile.
+#'  Only when both values are \code{TRUE}, a PEC for the 
+#'  lower boundary is returned.
+#'
 #'@param \dots
 #'  Additional parameters passed to 
 #'  \code{\link[macroutils2:macroReadBin-methods]{macroReadBin}}, when \code{x} is 
@@ -4753,6 +4764,7 @@ macroutilsFocusGWConc.data.frame <- function(
     type = 7L, 
     quiet = FALSE, 
     massunits = 2L, 
+    output_lower_bound = c( "water" = TRUE, "solute" = FALSE ), 
     ...
 ){  
     if( !quiet ){
@@ -4778,6 +4790,27 @@ macroutilsFocusGWConc.data.frame <- function(
         stop( sprintf( 
             "Unknown value for MASSUNITS (%s) in the par file. Expects 1, 2, 3 or 4.", 
             massunits
+        ) ) 
+    }   
+    
+    if( !is.logical( output_lower_bound ) ){
+        stop( sprintf( 
+            "'output_lower_bound' must be a vector of 2 logical values. Now class %s", 
+            paste( class( output_lower_bound ), collapse = " " ) 
+        ) ) 
+    }   
+    
+    if( length( output_lower_bound ) != 2L ){
+        stop( sprintf( 
+            "'output_lower_bound' must be a vector of 2 logical values. Now length %s", 
+            length( output_lower_bound ) 
+        ) ) 
+    }   
+    
+    if( !all( c( "water", "solute" ) %in% names( output_lower_bound ) ) ){
+        stop( sprintf( 
+            "'output_lower_bound' must contain the labels 'water' and 'solute'", 
+            length( output_lower_bound ) 
         ) ) 
     }   
     
@@ -5207,6 +5240,19 @@ macroutilsFocusGWConc.data.frame <- function(
     
     if( method == "R" ){
         out[[ "info_general" ]][, "quantile_type" ] <- type
+    }   
+    
+    #   Remove output that shall not be returned
+    if( !output_lower_bound[ "water" ] ){
+        out <- out[ names( out ) != "water_perc_by_period" ] 
+    }   
+    
+    if( !output_lower_bound[ "solute" ] ){
+        out <- out[ names( out ) != "solute_perc_by_period" ] 
+    }   
+    
+    if( !(output_lower_bound[ "water" ] & output_lower_bound[ "solute" ]) ){
+        out <- out[ names( out ) != "conc_perc" ] 
     }   
     
     return( out ) 
