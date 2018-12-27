@@ -1,6 +1,15 @@
 
     R package: macroutils2
 
+CHANGES IN VERSION 2.2.1
+    
+    2018/12/26  macroutilsFocusGWConc() has now a new argument 
+        "output_lower_bound". default behaviour is now to return 
+        water percolating at the lower boundary of the profile, 
+        but neither solute mass flow nor a PEC for the lower 
+        boundary (i.e. like in MACRO In FOCUS), so the user 
+        does not pick the wrong PEC.
+    
 CHANGES IN VERSION 2.2.0
     
     2018/11/19  All example/test binary files were updated.

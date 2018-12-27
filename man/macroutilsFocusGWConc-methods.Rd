@@ -21,7 +21,8 @@ macroutilsFocusGWConc(x, nbYrsWarmUp = 6L, yearsAvg = NULL,
 
 \method{macroutilsFocusGWConc}{data.frame}(x, nbYrsWarmUp = 6L,
   yearsAvg = NULL, prob = 0.8, method = c("focus", "R", "test")[1L],
-  negToZero = TRUE, type = 7L, quiet = FALSE, massunits = 2L, ...)
+  negToZero = TRUE, type = 7L, quiet = FALSE, massunits = 2L,
+  output_lower_bound = c(water = TRUE, solute = FALSE), ...)
 }
 \arguments{
 \item{x}{Either a vector of character strings, a 
@@ -122,6 +123,16 @@ Corresponds to the parameter \code{MASSUNITS} in MACRO.}
 \code{\link[macroutils2:macroReadBin-methods]{macroReadBin}}, when \code{x} is 
 a character string naming one or several files to be 
 imported. Not used otherwise.}
+
+\item{output_lower_bound}{Vector of two logical value, labelled \code{"water"} 
+and \code{"solute"}. If \code{output_lower_bound["water"]} 
+is \code{TRUE} (the default), output is returned for the 
+water percolating at the lower boundary of the soil profile.
+If \code{output_lower_bound["solute"]} is \code{TRUE} 
+(not the default), output is returned for the solute 
+passing through the lower boundary of the soil profile.
+Only when both values are \code{TRUE}, a PEC for the 
+lower boundary is returned.}
 }
 \value{
 Returns a \code{\link[base]{list}} with the following items:
