@@ -1,6 +1,6 @@
 Package: macroutils2
-Version: 2.2.1
-Date: 2018-12-27
+Version: 2.2.2
+Date: 2019-03-26
 Author: Julien Moeys [aut, cre], Kristian Persson [aut]
 Authors@R: c( person( given = "Julien", family = "Moeys", role = c("aut", "cre"), email = "jules_m78-soiltexture@@yahooDOTfr" ), person( given = "Kristian", family = "Persson", role = "aut" ), person( "Centre for Chemical Pesticides (CKB), Swedish University of Agricultural Sciences (SLU)", role = "cph", comment = "Copyright 2010-2016" ) )
 Maintainer: Julien Moeys <jules_m78-soiltexture@yahoo.fr>
