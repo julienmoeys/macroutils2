@@ -22,7 +22,8 @@ macroutilsFocusGWConc(x, nbYrsWarmUp = 6L, yearsAvg = NULL,
 \method{macroutilsFocusGWConc}{data.frame}(x, nbYrsWarmUp = 6L,
   yearsAvg = NULL, prob = 0.8, method = c("focus", "R", "test")[1L],
   negToZero = TRUE, type = 7L, quiet = FALSE, massunits = 2L,
-  output_lower_bound = c(water = TRUE, solute = FALSE), ...)
+  output_water = c(target_l = TRUE, lower_b = TRUE),
+  output_solute = c(target_l = TRUE, lower_b = FALSE), ...)
 }
 \arguments{
 \item{x}{Either a vector of character strings, a 
@@ -124,15 +125,18 @@ Corresponds to the parameter \code{MASSUNITS} in MACRO.}
 a character string naming one or several files to be 
 imported. Not used otherwise.}
 
-\item{output_lower_bound}{Vector of two logical value, labelled \code{"water"} 
-and \code{"solute"}. If \code{output_lower_bound["water"]} 
-is \code{TRUE} (the default), output is returned for the 
-water percolating at the lower boundary of the soil profile.
-If \code{output_lower_bound["solute"]} is \code{TRUE} 
-(not the default), output is returned for the solute 
-passing through the lower boundary of the soil profile.
-Only when both values are \code{TRUE}, a PEC for the 
-lower boundary is returned.}
+\item{output_water}{Vector of two logical value, labelled \code{"target_l"} 
+and \code{"lower_b"}. Indicates whether or not output 
+should be reported for the water flow through the target 
+layer or at the lower boundary, respectively.}
+
+\item{output_solute}{Vector of two logical value, labelled \code{"target_l"} 
+and \code{"lower_b"}. Indicates whether or not output 
+should be reported for the solute flow through the target 
+layer or at the lower boundary, respectively. Both water 
+and solute flow should be returned for the target layer or 
+the lower boundary for the concentration to be reported 
+at the target layer or the lower boundary.}
 }
 \value{
 Returns a \code{\link[base]{list}} with the following items:

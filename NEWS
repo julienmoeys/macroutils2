@@ -1,6 +1,14 @@
 
     R package: macroutils2
 
+CHANGES IN VERSION 2.2.2
+    
+   2019/03/26  macroutilsFocusGWConc() argument "output_lower_bound"
+        was changed to two arguments "output_water" and 
+        "output_solute" to finely tune whether the report 
+        should include the target layer, the lower boundary 
+        or both.
+    
 CHANGES IN VERSION 2.2.1
     
     2018/12/26  macroutilsFocusGWConc() has now a new argument 

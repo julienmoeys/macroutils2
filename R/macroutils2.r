@@ -1846,7 +1846,7 @@ macroReadBin.character <- function(
             )   
             
             if( length(f) == 0 ){ 
-                stop( "You haven't choosen any binary file to read :o(" )
+                stop( "You haven't chosen any binary file to read :o(" )
             }   
             
             f <- sort( f ) 
@@ -4409,16 +4409,20 @@ macroBugFixCleanDb <- function(
 #'  function), \code{2} is grams and \code{4} is kilograms. 
 #'  Corresponds to the parameter \code{MASSUNITS} in MACRO.
 #'
-#'@param output_lower_bound
-#'  Vector of two logical value, labelled \code{"water"} 
-#'  and \code{"solute"}. If \code{output_lower_bound["water"]} 
-#'  is \code{TRUE} (the default), output is returned for the 
-#'  water percolating at the lower boundary of the soil profile.
-#'  If \code{output_lower_bound["solute"]} is \code{TRUE} 
-#'  (not the default), output is returned for the solute 
-#'  passing through the lower boundary of the soil profile.
-#'  Only when both values are \code{TRUE}, a PEC for the 
-#'  lower boundary is returned.
+#'@param output_water
+#'  Vector of two logical value, labelled \code{"target_l"} 
+#'  and \code{"lower_b"}. Indicates whether or not output 
+#'  should be reported for the water flow through the target 
+#'  layer or at the lower boundary, respectively.
+#'
+#'@param output_solute
+#'  Vector of two logical value, labelled \code{"target_l"} 
+#'  and \code{"lower_b"}. Indicates whether or not output 
+#'  should be reported for the solute flow through the target 
+#'  layer or at the lower boundary, respectively. Both water 
+#'  and solute flow should be returned for the target layer or 
+#'  the lower boundary for the concentration to be reported 
+#'  at the target layer or the lower boundary.
 #'
 #'@param \dots
 #'  Additional parameters passed to 
@@ -4747,6 +4751,8 @@ macroutilsFocusGWConc.list <- function(
     return( out ) 
 }   
 
+
+
 #'@rdname macroutilsFocusGWConc-methods
 #'
 #'@method macroutilsFocusGWConc data.frame
@@ -4764,7 +4770,9 @@ macroutilsFocusGWConc.data.frame <- function(
     type = 7L, 
     quiet = FALSE, 
     massunits = 2L, 
-    output_lower_bound = c( "water" = TRUE, "solute" = FALSE ), 
+    # output_lower_bound = c( "water" = TRUE, "solute" = FALSE ), 
+    output_water  = c( "target_l" = TRUE, "lower_b" = TRUE ), 
+    output_solute = c( "target_l" = TRUE, "lower_b" = FALSE ), 
     ...
 ){  
     if( !quiet ){
@@ -4793,26 +4801,34 @@ macroutilsFocusGWConc.data.frame <- function(
         ) ) 
     }   
     
-    if( !is.logical( output_lower_bound ) ){
-        stop( sprintf( 
-            "'output_lower_bound' must be a vector of 2 logical values. Now class %s", 
-            paste( class( output_lower_bound ), collapse = " " ) 
-        ) ) 
-    }   
+    outputs <- c( "output_water", "output_solute" )
     
-    if( length( output_lower_bound ) != 2L ){
-        stop( sprintf( 
-            "'output_lower_bound' must be a vector of 2 logical values. Now length %s", 
-            length( output_lower_bound ) 
-        ) ) 
-    }   
+    for( i in 1:length( outputs ) ){
+        output_i <- get( x = outputs[ i ] )
+        
+        if( !is.logical( output_i ) ){
+            stop( sprintf( 
+                "'%s' must be a vector of 2 logical values. Now class %s", 
+                outputs[ i ], 
+                paste( class( output_i ), collapse = " " ) ) ) 
+        }   
+        
+        if( length( output_i ) != 2L ){
+            stop( sprintf( 
+                "'%s' must be a vector of 2 logical values. Now length %s", 
+                outputs[ i ], length( output_i ) ) ) 
+        }   
+        
+        if( !all( c( "target_l", "lower_b" ) %in% names( output_i ) ) ){
+            stop( sprintf( 
+                "'%s' must contain the labels 'target_l' and 'lower_b'", 
+                outputs[ i ] ) ) 
+        }   
+        
+        rm( output_i )
+    };  rm( outputs ) 
     
-    if( !all( c( "water", "solute" ) %in% names( output_lower_bound ) ) ){
-        stop( sprintf( 
-            "'output_lower_bound' must contain the labels 'water' and 'solute'", 
-            length( output_lower_bound ) 
-        ) ) 
-    }   
+    
     
     #   Find out the relevant column names (independently of 
     #   the layer-suffix)
@@ -5243,16 +5259,29 @@ macroutilsFocusGWConc.data.frame <- function(
     }   
     
     #   Remove output that shall not be returned
-    if( !output_lower_bound[ "water" ] ){
+    if( !output_water[ "lower_b" ] ){
         out <- out[ names( out ) != "water_perc_by_period" ] 
     }   
     
-    if( !output_lower_bound[ "solute" ] ){
+    #   Remove output that shall not be returned
+    if( !output_water[ "target_l" ] ){
+        out <- out[ names( out ) != "water_target_layer_by_period" ] 
+    }   
+    
+    if( !output_solute[ "lower_b" ] ){
         out <- out[ names( out ) != "solute_perc_by_period" ] 
     }   
     
-    if( !(output_lower_bound[ "water" ] & output_lower_bound[ "solute" ]) ){
+    if( !output_solute[ "target_l" ] ){
+        out <- out[ names( out ) != "solute_target_layer_by_period" ] 
+    }   
+    
+    if( !(output_water[ "lower_b" ] & output_solute[ "lower_b" ]) ){
         out <- out[ names( out ) != "conc_perc" ] 
+    }   
+    
+    if( !(output_water[ "target_l" ] & output_solute[ "target_l" ]) ){
+        out <- out[ names( out ) != "conc_target_layer" ] 
     }   
     
     return( out ) 
