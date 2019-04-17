@@ -37,12 +37,11 @@ pdu_detach( pkgName = pkgName )
 pdu_pkgDescription( 
     pkgName     = pkgName, 
     pkgDir      = pkgDir, 
-    pkgVersion  = "2.2.2", 
+    pkgVersion  = "2.2.3", 
     pkgDepends  = "utils", # Must be in "Depends" as choose.files not available on Unix
     pkgImports  = c( "tcltk", "graphics", "grDevices", "stats" ), # "tools", 
     pkgSuggests = c( "RODBC" ), 
-    RVersion    = NULL 
-)   
+    RVersion    = "R (>= 3.1.0)" )   
 
 
 

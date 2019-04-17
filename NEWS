@@ -1,6 +1,12 @@
 
     R package: macroutils2
 
+CHANGES IN VERSION 2.2.3
+    
+    2019/04/17  Decreased the min R version supported by 
+        the package to R 3.1.0. The package was nonetheless 
+        not tested on this version.
+    
 CHANGES IN VERSION 2.2.2
     
    2019/03/26  macroutilsFocusGWConc() argument "output_lower_bound"
