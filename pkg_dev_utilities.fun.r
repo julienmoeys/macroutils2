@@ -214,7 +214,7 @@ pdu_rcmdbuild <- function(
     
     if( gitRevison ){
         cmd <-  sprintf( 
-            "git log -n 1 --oneline --no-notes > inst\\GIT_REVISION" )
+            "git log -n 1 --oneline --no-notes > inst\\REVISION" )
         
         pdu_message( sprintf( "COMMAND: %s\n\n", cmd ) )
         

@@ -62,7 +62,7 @@ NULL
     
     # Welcome message
     if( interactive() ){ 
-        gitVersion <- system.file( "GIT_REVISION", package = pkgname ) 
+        gitVersion <- system.file( "REVISION", package = pkgname ) 
         
         if( gitVersion != "" ){ 
             gitVersion <- readLines( con = gitVersion )[ 1L ] 
