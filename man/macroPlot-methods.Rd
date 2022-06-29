@@ -16,11 +16,28 @@ macroPlot(x, ...)
 
 \method{macroPlot}{data.frame}(x, ...)
 
-\method{macroPlot}{default}(x, gui = TRUE, z = NULL, subPlots = TRUE,
-  verbose = TRUE, xlab = "Date", ylab = NULL, ylim = NULL,
-  xlim = NULL, col = NULL, sub = NULL, lwd = 2L, lty = NULL,
-  main = NULL, cex.main = NULL, panel.first = .paf(),
-  dLegend = TRUE, las = 1L, bty = "n", ...)
+\method{macroPlot}{default}(
+  x,
+  gui = TRUE,
+  z = NULL,
+  subPlots = TRUE,
+  verbose = TRUE,
+  xlab = "Date",
+  ylab = NULL,
+  ylim = NULL,
+  xlim = NULL,
+  col = NULL,
+  sub = NULL,
+  lwd = 2L,
+  lty = NULL,
+  main = NULL,
+  cex.main = NULL,
+  panel.first = .paf(),
+  dLegend = TRUE,
+  las = 1L,
+  bty = "n",
+  ...
+)
 }
 \arguments{
 \item{x}{A single \code{\link[base]{data.frame}}, or a

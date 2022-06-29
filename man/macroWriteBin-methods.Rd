@@ -16,8 +16,7 @@ macroWriteBin(x, ...)
 
 \method{macroWriteBin}{list}(x, f, ...)
 
-\method{macroWriteBin}{data.frame}(x, f, header = TRUE,
-  dateMethod = 1L, tz = "GMT", ...)
+\method{macroWriteBin}{data.frame}(x, f, header = TRUE, dateMethod = 1L, tz = "GMT", ...)
 }
 \arguments{
 \item{x}{A \code{\link[base]{data.frame}}. 

@@ -55,13 +55,13 @@ The function has 3 possible, non-exclusive behaviours: \itemize{ \item If
  \item Setting-up the value of some parameters, passing a list of parameter
  value to \code{par} OR setting some of the parameters listed above. }
 
-Notice that when \code{reset=TRUE} and some new parameter values are
+ Notice that when \code{reset=TRUE} and some new parameter values are
  provided, the parameters are first reset, and then the new parameter values
  are set. If \code{par} is a list, parameters are set first according to
  values in \code{par}, and then according to values in the parameters listed
  below. This combination is not recommended, but nonetheless possible.
 
-The actual value of the parameters is stored in (and can be retrieved from)
+ The actual value of the parameters is stored in (and can be retrieved from)
  the environment \code{rspPars}. The default value of the parameters are
  stored in the environment \code{rspPars}. Do not use them directly.
 }

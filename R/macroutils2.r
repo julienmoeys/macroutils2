@@ -1371,10 +1371,15 @@ macroReadIndump <- function(
             FUN = function(X){ 
                 #   New code, also handling metabolite intermediate 
                 #   file
-                readChar( 
+                txt <- readChar( 
                     con = binData[ sel.vec.lst2[[ X ]] ][ 
                         binData[ sel.vec.lst2[[ X ]] ] != as.raw(0x00) ], 
-                    nchars = length( sel.vec.lst2[[ X ]] ) ) #   
+                    nchars = length( sel.vec.lst2[[ X ]] ), 
+                    useBytes = TRUE ) 
+                    # useBytes = TRUE added on 220629. 
+                    #   Attempt to fix "invalid UTF-8 input in readChar()" error
+                
+                return( enc2utf8(txt) )
                 
                 # readChar( 
                     # con    = binData[ sel.vec.lst2[[ X ]] ], 

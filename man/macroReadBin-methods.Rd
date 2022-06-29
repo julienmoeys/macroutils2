@@ -7,9 +7,18 @@
 \usage{
 macroReadBin(f, ...)
 
-\method{macroReadBin}{character}(f, header = TRUE, rmSuffixes = TRUE,
-  trimLength = integer(), rmNonAlphaNum = TRUE, rmSpaces = TRUE,
-  rmRunID = TRUE, dateMethod = 1L, tz = "GMT", ...)
+\method{macroReadBin}{character}(
+  f,
+  header = TRUE,
+  rmSuffixes = TRUE,
+  trimLength = integer(),
+  rmNonAlphaNum = TRUE,
+  rmSpaces = TRUE,
+  rmRunID = TRUE,
+  dateMethod = 1L,
+  tz = "GMT",
+  ...
+)
 }
 \arguments{
 \item{f}{Vector of character strings or a single \code{\link{connection}}

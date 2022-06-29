@@ -1,6 +1,13 @@
 
     R package: macroutils2
 
+CHANGES IN VERSION 2.3.0
+
+    2022/06/29  Package compiled for R 4.2.0
+        Fixed an "invalid UTF-8 input in readChar()" error 
+        in macroReadBin that occured when running R CMD CHECK 
+        on the example in the function's documentation.
+
 CHANGES IN VERSION 2.2.3
     
     2019/04/17  Decreased the min R version supported by 

@@ -7,23 +7,59 @@
 \alias{macroutilsFocusGWConc.data.frame}
 \title{INTERNAL/NON-OFFICIAL: Calculate the yearly and Xth percentile groundwater concentration from a MACROInFOCUS output.}
 \usage{
-macroutilsFocusGWConc(x, nbYrsWarmUp = 6L, yearsAvg = NULL,
-  prob = 0.8, method = c("focus", "R", "test")[1L], negToZero = TRUE,
-  type = 7L, quiet = FALSE, massunits = 2L, ...)
+macroutilsFocusGWConc(
+  x,
+  nbYrsWarmUp = 6L,
+  yearsAvg = NULL,
+  prob = 0.8,
+  method = c("focus", "R", "test")[1L],
+  negToZero = TRUE,
+  type = 7L,
+  quiet = FALSE,
+  massunits = 2L,
+  ...
+)
 
-\method{macroutilsFocusGWConc}{character}(x, nbYrsWarmUp = 6L,
-  yearsAvg = NULL, prob = 0.8, method = c("focus", "R", "test")[1L],
-  negToZero = TRUE, type = 7L, quiet = FALSE, massunits = 2L, ...)
+\method{macroutilsFocusGWConc}{character}(
+  x,
+  nbYrsWarmUp = 6L,
+  yearsAvg = NULL,
+  prob = 0.8,
+  method = c("focus", "R", "test")[1L],
+  negToZero = TRUE,
+  type = 7L,
+  quiet = FALSE,
+  massunits = 2L,
+  ...
+)
 
-\method{macroutilsFocusGWConc}{list}(x, nbYrsWarmUp = 6L,
-  yearsAvg = NULL, prob = 0.8, method = c("focus", "R", "test")[1L],
-  negToZero = TRUE, type = 7L, quiet = FALSE, massunits = 2L, ...)
+\method{macroutilsFocusGWConc}{list}(
+  x,
+  nbYrsWarmUp = 6L,
+  yearsAvg = NULL,
+  prob = 0.8,
+  method = c("focus", "R", "test")[1L],
+  negToZero = TRUE,
+  type = 7L,
+  quiet = FALSE,
+  massunits = 2L,
+  ...
+)
 
-\method{macroutilsFocusGWConc}{data.frame}(x, nbYrsWarmUp = 6L,
-  yearsAvg = NULL, prob = 0.8, method = c("focus", "R", "test")[1L],
-  negToZero = TRUE, type = 7L, quiet = FALSE, massunits = 2L,
+\method{macroutilsFocusGWConc}{data.frame}(
+  x,
+  nbYrsWarmUp = 6L,
+  yearsAvg = NULL,
+  prob = 0.8,
+  method = c("focus", "R", "test")[1L],
+  negToZero = TRUE,
+  type = 7L,
+  quiet = FALSE,
+  massunits = 2L,
   output_water = c(target_l = TRUE, lower_b = TRUE),
-  output_solute = c(target_l = TRUE, lower_b = FALSE), ...)
+  output_solute = c(target_l = TRUE, lower_b = FALSE),
+  ...
+)
 }
 \arguments{
 \item{x}{Either a vector of character strings, a 

@@ -4,9 +4,16 @@
 \alias{macroConvertBin}
 \title{Converts MACRO/SOIL binary files into CSV or TXT text files}
 \usage{
-macroConvertBin(f, gui = TRUE, sep = ",", dec = ".",
-  fileOut = NULL, writeArgs = list(row.names = FALSE),
-  overwrite = FALSE, ...)
+macroConvertBin(
+  f,
+  gui = TRUE,
+  sep = ",",
+  dec = ".",
+  fileOut = NULL,
+  writeArgs = list(row.names = FALSE),
+  overwrite = FALSE,
+  ...
+)
 }
 \arguments{
 \item{f}{Vector of character strings or a single \code{\link{connection}}

@@ -4,8 +4,13 @@
 \alias{macroAggregateBin}
 \title{Aggregate simulation results by some date subsets, using various functions}
 \usage{
-macroAggregateBin(x, columns = colnames(x), by = "\%Y-\%m-\%d",
-  FUN = sum, dateCol = "Date")
+macroAggregateBin(
+  x,
+  columns = colnames(x),
+  by = "\%Y-\%m-\%d",
+  FUN = sum,
+  dateCol = "Date"
+)
 }
 \arguments{
 \item{x}{A data.frame, with a date column named after 'dateCol' (default
