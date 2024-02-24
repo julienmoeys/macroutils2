@@ -177,82 +177,82 @@ at the target layer or the lower boundary.}
 \value{
 Returns a \code{\link[base]{list}} with the following items:
  \itemize{
-   \item{"info\_general"}{
+   \item{"info_general"}{
      A \code{\link[base]{data.frame}} with the following columns:
      \itemize{
-       \item{"conc\_percentile"}{The percentile used to 
+       \item{"conc_percentile"}{The percentile used to 
          calculate the Predicted Environmental Concentration 
-         (columns \code{ug\_per\_L} in items 
-         \code{conc\_target\_layer} and \code{conc\_perc}, 
+         (columns \code{ug_per_L} in items 
+         \code{conc_target_layer} and \code{conc_perc}, 
          below), in [\%].}
-       \item{"rank\_period1"}{The rank of the first 
-         simulation period used to calculate \code{ug\_per\_L},
+       \item{"rank_period1"}{The rank of the first 
+         simulation period used to calculate \code{ug_per_L},
          when ordered by increasing average concentration.}
-       \item{"rank\_period2"}{The rank of the second 
-         simulation period used to calculate \code{ug\_per\_L},
+       \item{"rank_period2"}{The rank of the second 
+         simulation period used to calculate \code{ug_per_L},
          when ordered by increasing average concentration.}
        \item{"method"}{See argument \code{method} above.}
-       \item{"nb\_sim\_yrs\_used"}{Number of simulation years 
+       \item{"nb_sim_yrs_used"}{Number of simulation years 
          used for the calculation, after discarding the warm-up 
          period.}
-       \item{"nb\_yrs\_per\_period"}{Number of simulation years 
+       \item{"nb_yrs_per_period"}{Number of simulation years 
          aggregated to calculate the average concentration of 
          each "period". 1, 2 or 3 in cases of yearly, biennial 
          or triennial pesticide application frequency.}
-       \item{"nb\_yrs\_warmup"}{Number of simulation 
+       \item{"nb_yrs_warmup"}{Number of simulation 
          years discarded as a warm-up period.}
-       \item{"neg\_conc\_set\_to\_0"}{See \code{negToZero} 
+       \item{"neg_conc_set_to_0"}{See \code{negToZero} 
          above.}
      }  
    }  
-   \item{"info\_period"}{
+   \item{"info_period"}{
      A \code{\link[base]{data.frame}} with the following columns:
      \itemize{
-       \item{"period\_index"}{Index of the simulation 
+       \item{"period_index"}{Index of the simulation 
          period when periods are sorted in chronological 
          order (i.e. \code{1} is the first or earliest 
          period).}
-       \item{"from\_year"}{First year included in the period.}
-       \item{"to\_year"}{Last year included in the period.}
+       \item{"from_year"}{First year included in the period.}
+       \item{"to_year"}{Last year included in the period.}
      }  
    } 
-   \item{"water\_target\_layer\_by\_period"}{
+   \item{"water_target_layer_by_period"}{
      A \code{\link[base]{data.frame}} with the following columns:
      \itemize{
-       \item{"period\_index"}{See above.}
-       \item{"mm\_mic"}{Accumulated amount of water 
+       \item{"period_index"}{See above.}
+       \item{"mm_mic"}{Accumulated amount of water 
          passed through the micropores in target layer 
          over the period, downward (positive) or upward 
          (negative), in [mm] of water.}
-       \item{"mm\_mac"}{Accumulated amount of water 
+       \item{"mm_mac"}{Accumulated amount of water 
          passed through the macropores in target layer 
          over the period, downward (positive) or upward 
          (negative), in [mm] of water.}
-       \item{"mm\_tot"}{Accumulated amount of water 
+       \item{"mm_tot"}{Accumulated amount of water 
          passed through the target layer 
          over the period, downward (positive) or upward 
          (negative), in [mm] of water.}
      }  
    } 
-   \item{"solute\_target\_layer\_by\_period"}{
+   \item{"solute_target_layer_by_period"}{
      A \code{\link[base]{data.frame}} with the following columns:
      \itemize{
-       \item{"period\_index"}{See above.}
-       \item{"mg\_per\_m2\_mic"}{Accumulated mass of 
+       \item{"period_index"}{See above.}
+       \item{"mg_per_m2_mic"}{Accumulated mass of 
          solute passed through the micropores, per square 
          meter, in target layer, over the period, 
          downward (positive) or upward (negative), in 
          [mg/ m2].}
-       \item{"mg\_per\_m2\_mac"}{Accumulated mass of 
+       \item{"mg_per_m2_mac"}{Accumulated mass of 
          solute passed through the macropores, per square 
          meter, in target layer, over the period, 
          downward (positive) or upward (negative), in 
          [mg/ m2].}
-       \item{"mg\_per\_m2\_tot"}{Accumulated mass of 
+       \item{"mg_per_m2_tot"}{Accumulated mass of 
          solute passed through the target layer, per square 
          meter, over the period, downward (positive) or 
          upward (negative), in [mg/ m2].}
-       \item{"ug\_per\_L"}{Water-flow-weighted average 
+       \item{"ug_per_L"}{Water-flow-weighted average 
          solute concentration over the period, in 
          [micro-grams/L] or [mg/m3]. In practice equal 
          to the accumulated solute mass divided by the 
@@ -260,26 +260,26 @@ Returns a \code{\link[base]{list}} with the following items:
          conversion.}
      }  
    } 
-   \item{"water\_perc\_by\_period"}{
+   \item{"water_perc_by_period"}{
      A \code{\link[base]{data.frame}} with the following columns:
      \itemize{
-       \item{"period\_index"}{See above.}
+       \item{"period_index"}{See above.}
        \item{"mm"}{Accumulated amount of water 
          passed through the bottom layer of the soil profile 
          over the period, downward (positive) or upward 
          (negative), in [mm] of water.}
      }  
    } 
-   \item{"solute\_perc\_by\_period"}{
+   \item{"solute_perc_by_period"}{
      A \code{\link[base]{data.frame}} with the following columns:
      \itemize{
-       \item{"period\_index"}{See above.}
-       \item{"mg\_per\_m2"}{Accumulated mass of 
+       \item{"period_index"}{See above.}
+       \item{"mg_per_m2"}{Accumulated mass of 
          solute passed through the bottom layer of the soil 
          profile , per square meter, over the period, 
          downward (positive) or upward (negative), in 
          [mg/ m2].}
-       \item{"ug\_per\_L"}{Water-flow-weighted average 
+       \item{"ug_per_L"}{Water-flow-weighted average 
          solute concentration over the period, in 
          [micro-grams/L] or [mg/m3]. In practice equal 
          to the accumulated solute mass divided by the 
@@ -287,61 +287,61 @@ Returns a \code{\link[base]{list}} with the following items:
          conversion.}
      }  
    } 
-   \item{"conc\_target\_layer"}{
+   \item{"conc_target_layer"}{
      A \code{\link[base]{data.frame}} with the following columns:
      \itemize{
-       \item{"ug\_per\_L"}{Xth percentile of the period-
+       \item{"ug_per_L"}{Xth percentile of the period-
          averaged solute concentrations in the target 
-         layer, where X is equal to \code{conc\_percentile} 
+         layer, where X is equal to \code{conc_percentile} 
          (See above).}
-       \item{"ug\_per\_L\_rnd"}{Same as above, except that 
+       \item{"ug_per_L_rnd"}{Same as above, except that 
          the concentration is rounded to 2 digits after the 
          decimal mark, in scientific mode, in an attempt to 
          obtain the same value as MACRO In FOCUS graphical 
          interface.}
-       \item{"index\_period1"}{Index of the first simulation 
+       \item{"index_period1"}{Index of the first simulation 
          period used to calculate the Xth percentile of 
          the period-averaged solute concentrations. 
-         Corresponds to the column \code{period\_index} in 
+         Corresponds to the column \code{period_index} in 
          the tables above.}
-       \item{"index\_period2"}{Index of the second simulation 
+       \item{"index_period2"}{Index of the second simulation 
          period used to calculate the Xth percentile of 
          the period-averaged solute concentrations. 
-         Corresponds to the column \code{period\_index} in 
+         Corresponds to the column \code{period_index} in 
          the tables above.}
-       \item{"f\_solute\_mac"}{Average fraction of solute 
+       \item{"f_solute_mac"}{Average fraction of solute 
          in the macropores corresponding to 
-         \code{ug\_per\_L}, 0 meaning 0\% of the solute in 
+         \code{ug_per_L}, 0 meaning 0\% of the solute in 
          the macropres and 1 meaning 100\% of the solute 
          in the macropores.}
-       \item{"f\_solute\_mic"}{Average fraction of solute 
+       \item{"f_solute_mic"}{Average fraction of solute 
          in the micropores corresponding to 
-         \code{ug\_per\_L}, 0 meaning 0\% of the solute in 
+         \code{ug_per_L}, 0 meaning 0\% of the solute in 
          the micropres and 1 meaning 100\% of the solute 
          in the micropores.}
      }  
    } 
-   \item{"conc\_perc"}{
+   \item{"conc_perc"}{
      A \code{\link[base]{data.frame}} with the following columns:
      \itemize{
-       \item{"ug\_per\_L"}{Xth percentile of the period-
+       \item{"ug_per_L"}{Xth percentile of the period-
          averaged solute concentrations percolated at the 
          bottom boundary of the soil profile, where X is 
-         equal to \code{conc\_percentile} (See above).}
-       \item{"ug\_per\_L\_rnd"}{Same as above, except that 
+         equal to \code{conc_percentile} (See above).}
+       \item{"ug_per_L_rnd"}{Same as above, except that 
          the concentration is rounded to 2 digits after the 
          decimal mark, in scientific mode, in an attempt to 
          obtain the same value as MACRO In FOCUS graphical 
          interface.}
-       \item{"index\_period1"}{Index of the first simulation 
+       \item{"index_period1"}{Index of the first simulation 
          period used to calculate the Xth percentile of 
          the period-averaged solute concentrations. 
-         Corresponds to the column \code{period\_index} in 
+         Corresponds to the column \code{period_index} in 
          the tables above.}
-       \item{"index\_period2"}{Index of the second simulation 
+       \item{"index_period2"}{Index of the second simulation 
          period used to calculate the Xth percentile of 
          the period-averaged solute concentrations. 
-         Corresponds to the column \code{period\_index} in 
+         Corresponds to the column \code{period_index} in 
          the tables above.}
      }  
    } 
