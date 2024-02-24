@@ -1,7 +1,13 @@
 
 # macroutils2 2.3.1
     
-*   2024/02/24 Package compiled and checked with R 4.3.2
+*   2024/02/24 
+    *   Package compiled and checked with R 4.3.2
+    
+    *   Fix a bug in causing .macroReadBin() to fail 
+        when non-UTF-8 characters are present in column 
+        names (error arrising with sub()). WARNING 
+        column names may changes after this update.
     
 # macroutils2 2.3.0
 
