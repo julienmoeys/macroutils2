@@ -1333,7 +1333,7 @@ macroReadIndump <- function(
     if( header ){ 
         col.Names <- rep( x = as.character(NA), times = variables.number ) 
         
-        col.Names[1L] <- "Date" 
+        col.Names[1L] <- "Date"
         
         sel.vec.lst2 <- mapply( 
             FUN  = seq, 
@@ -1355,7 +1355,7 @@ macroReadIndump <- function(
                     # useBytes = TRUE added on 220629. 
                     #   Attempt to fix "invalid UTF-8 input in readChar()" error
                 
-                return( enc2utf8(txt) )
+                return( txt ) # enc2utf8(txt) # 2024-02-24 move down enc2utf8()
                 
                 # readChar( 
                     # con    = binData[ sel.vec.lst2[[ X ]] ], 
@@ -1364,6 +1364,12 @@ macroReadIndump <- function(
             }   
         ) ) 
         
+        col.Names <- iconv( # New 2024-02-24
+            x    = col.Names, 
+            from = "UTF-8", 
+            to   = "UTF-8", 
+            sub  = "" )
+         
         # Remove trailing blanks
         col.Names <- sub( 
             pattern     = "[ ]*$", 
@@ -4415,12 +4421,12 @@ macroBugFixCleanDb <- function(
 #'@return 
 #'  Returns a \code{\link[base]{list}} with the following items:
 #'  \itemize{
-#'    \item{"info\_general"}{
+#'    \item{"info_general"}{
 #'      A \code{\link[base]{data.frame}} with the following columns:
 #'      \itemize{
-#'        \item{"conc\_percentile"}{The percentile used to 
+#'        \item{"conc_percentile"}{The percentile used to 
 #'          calculate the Predicted Environmental Concentration 
-#'          (columns \code{ug\_per\_L} in items 
+#'          (columns \code{ug_per_L} in items 
 #'          \code{conc\_target\_layer} and \code{conc\_perc}, 
 #'          below), in [\%].}
 #'        \item{"rank\_period1"}{The rank of the first 
